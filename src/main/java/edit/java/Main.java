@@ -1,7 +1,9 @@
 package edit.java;
 
+import edit.java.utils.getImg;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("soon ™");
+        new getImg(); // gonna do Editor tmr
     }
 }
