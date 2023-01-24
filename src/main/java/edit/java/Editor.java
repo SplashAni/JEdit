@@ -4,6 +4,7 @@ import edit.java.utils.config;
 import edit.java.utils.getImg;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Editor {
     public static JFrame editWindow;
@@ -11,10 +12,9 @@ public class Editor {
     public static JMenuBar options;
     public Editor(){
         renderImg = new JLabel();
-        editWindow = new JFrame("Java image editor");
+        editWindow = new JFrame("Image editor");
         options = new JMenuBar();
-
-
         config.load();
     }
+
 }

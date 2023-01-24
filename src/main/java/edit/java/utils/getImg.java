@@ -11,8 +11,8 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import static edit.java.Editor.renderImg;
 import static edit.java.utils.config.createCnfg;
+import static edit.java.utils.config.home;
 
 public class getImg extends JFrame implements MouseListener {
 
@@ -20,7 +20,7 @@ public class getImg extends JFrame implements MouseListener {
     private JButton exitButton;
     private JButton enterButton;
     private JLabel imageLabel;
-    static Color bordderColor = new Color(238, 130, 238);
+    static Color borderColor = new Color(238, 130, 238);
     static Color bgColor = new Color(65, 61, 61, 247);
     public static final Color txtColor  = new Color(58, 54, 54);
     public static File file;
@@ -37,7 +37,7 @@ public class getImg extends JFrame implements MouseListener {
 
 
         imageLabel = new JLabel();
-        imageLabel.setBorder(new LineBorder(bordderColor, 3));
+        imageLabel.setBorder(new LineBorder(borderColor, 3));
         imageLabel.setPreferredSize(new Dimension(300, 300));
         add(imageLabel, BorderLayout.CENTER);
 
@@ -100,10 +100,9 @@ public class getImg extends JFrame implements MouseListener {
             public void actionPerformed(ActionEvent e) {
                 createCnfg();
 
-                System.out.println();
                 FileWriter writer = null;
                 try {
-                    writer = new FileWriter("JPaint\\" + "loc.txt");
+                    writer = new FileWriter(home + File.separator + "JEdit" + File.separator + "path.txt");
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
