@@ -1,12 +1,18 @@
 package edit.java.utils;
 
+import edit.java.Editor;
+
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.Objects;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import static edit.java.Editor.renderImg;
+import static edit.java.utils.config.createCnfg;
 
 public class getImg extends JFrame implements MouseListener {
 
@@ -17,6 +23,7 @@ public class getImg extends JFrame implements MouseListener {
     static Color bordderColor = new Color(238, 130, 238);
     static Color bgColor = new Color(65, 61, 61, 247);
     public static final Color txtColor  = new Color(58, 54, 54);
+    public static File file;
 
 
     public getImg() {
@@ -46,23 +53,26 @@ public class getImg extends JFrame implements MouseListener {
                 if (!canImport(support)) {
                     return false;
                 }
-
                 try {
                     java.util.List<File> files = (java.util.List<File>) support.getTransferable()
                             .getTransferData(DataFlavor.javaFileListFlavor);
                     for (File file : files) {
-                        if (file.getName().endsWith(".png")) {
+                        if (file.getName().endsWith(".png") || file.getName().endsWith(".jpeg")) {
                             ImageIcon image = new ImageIcon(file.getAbsolutePath());
                             imageLabel.setIcon(image);
+                            getImg.file = file;
                         } else {
                             JOptionPane.showMessageDialog(null, "Invalid file type. Please drop a PNG image file.");
                         }
                     }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 return true;
             }
+
+
         });
 
         JPanel buttonPanel = new JPanel();
@@ -88,7 +98,37 @@ public class getImg extends JFrame implements MouseListener {
         enterButton.setFocusPainted(false);
         enterButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // SOON ™
+                createCnfg();
+
+                System.out.println();
+                FileWriter writer = null;
+                try {
+                    writer = new FileWriter("JPaint\\" + "loc.txt");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                if (getImg.file != null) {
+                    try {
+                        writer.write(getImg.file.getAbsolutePath());
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                } else {
+                    try {
+                        writer.write(getImg.file1.getAbsolutePath());
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+                try {
+                    writer.close();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                dispose();
+                new Editor();
+
             }
         });
         buttonPanel.add(enterButton);
@@ -105,6 +145,7 @@ public class getImg extends JFrame implements MouseListener {
     public void mouseClicked(MouseEvent e) {
 
     }
+    public static File file1;
 
     @Override
     public void mousePressed(MouseEvent e) {
@@ -113,8 +154,8 @@ public class getImg extends JFrame implements MouseListener {
         fileChooser.setFileFilter(filter);
         int returnVal = fileChooser.showOpenDialog(getImg.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File file = fileChooser.getSelectedFile();
-            ImageIcon img = new ImageIcon(file.getAbsolutePath());
+            file1 = fileChooser.getSelectedFile();
+            ImageIcon img = new ImageIcon(file1.getAbsolutePath());
             imageLabel.setIcon(img);
         }
     }
