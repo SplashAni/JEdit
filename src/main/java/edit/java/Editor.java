@@ -1,10 +1,8 @@
 package edit.java;
 
 import edit.java.utils.config;
-import edit.java.utils.getImg;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class Editor {
     public static JFrame editWindow;

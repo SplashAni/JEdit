@@ -1,12 +1,9 @@
-package edit.java.utils;
-
-import edit.java.Editor;
+package edit.java;
 
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.event.*;
 import java.io.*;
-import java.util.Objects;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -14,7 +11,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import static edit.java.utils.config.createCnfg;
 import static edit.java.utils.config.home;
 
-public class getImg extends JFrame implements MouseListener {
+public class Setup extends JFrame implements MouseListener {
 
     private JLabel dropLabel;
     private JButton exitButton;
@@ -26,7 +23,7 @@ public class getImg extends JFrame implements MouseListener {
     public static File file;
 
 
-    public getImg() {
+    public Setup() {
         setLayout(new BorderLayout());
 
         dropLabel = new JLabel("Drop file below:");
@@ -60,7 +57,7 @@ public class getImg extends JFrame implements MouseListener {
                         if (file.getName().endsWith(".png") || file.getName().endsWith(".jpeg")) {
                             ImageIcon image = new ImageIcon(file.getAbsolutePath());
                             imageLabel.setIcon(image);
-                            getImg.file = file;
+                            Setup.file = file;
                         } else {
                             JOptionPane.showMessageDialog(null, "Invalid file type. Please drop a PNG image file.");
                         }
@@ -106,15 +103,15 @@ public class getImg extends JFrame implements MouseListener {
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-                if (getImg.file != null) {
+                if (Setup.file != null) {
                     try {
-                        writer.write(getImg.file.getAbsolutePath());
+                        writer.write(Setup.file.getAbsolutePath());
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
                 } else {
                     try {
-                        writer.write(getImg.file1.getAbsolutePath());
+                        writer.write(Setup.file1.getAbsolutePath());
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -151,7 +148,7 @@ public class getImg extends JFrame implements MouseListener {
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG and JPEG Images", "png", "jpeg", "jpg");
         fileChooser.setFileFilter(filter);
-        int returnVal = fileChooser.showOpenDialog(getImg.this);
+        int returnVal = fileChooser.showOpenDialog(Setup.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             file1 = fileChooser.getSelectedFile();
             ImageIcon img = new ImageIcon(file1.getAbsolutePath());

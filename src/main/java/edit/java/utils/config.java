@@ -1,13 +1,15 @@
 package edit.java.utils;
 
+import edit.java.Setup;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-
 import java.awt.*;
 import java.io.*;
 
 import static edit.java.Editor.*;
-import static edit.java.utils.getImg.*;
+import static edit.java.Setup.*;
+import static edit.java.utils.imgResize.shouldScale;
 
 public class config {
     public static String path;
@@ -19,14 +21,13 @@ public class config {
     private static JMenuItem zoomIn;
     private static JMenuItem zoomOut;
     private static JMenuItem reload;
+    public static ImageIcon temp;
 
-    private static int zoomLevel = 100;
 
     public static String home = System.getProperty("user.home");
 
 
     public static void load() {
-
 
         menuBar = new JMenuBar();
         fileoption = new JMenu("File");
@@ -40,26 +41,27 @@ public class config {
         open.addActionListener(e -> open());
         zoomIn.addActionListener(e -> zoomIn());
         zoomOut.addActionListener(e -> zoomOut());
-        reload.addActionListener(e -> renderImg.repaint());
+        reload.addActionListener(e -> reload());
         fileoption.add(open);
 
-
-
+        Color borderColor = new Color(238, 130, 238);
         renderImg.setBorder(new LineBorder(borderColor, 2));
-
-        fileoption.addSeparator();
         fileoption.add(exit);
         view.add(reload);
+        view.addSeparator();
         view.add(zoomIn);
         view.add(zoomOut);
         menuBar.add(fileoption);
         menuBar.add(view);
         readImg();
 
+
+        renderImg.requestFocusInWindow();
+        renderImg.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
         renderImg.setPreferredSize(new Dimension(20,30));
         editWindow.add(renderImg);
         editWindow.setJMenuBar(menuBar);
-        editWindow.setResizable(false);
+        editWindow.setResizable(true);
         editWindow.setSize(600, 400);
         editWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         editWindow.setVisible(true);
@@ -67,7 +69,7 @@ public class config {
 
     static void open() {
         editWindow.dispose();
-        new getImg();
+        new Setup();
     }
 
     static void exit() {
@@ -75,43 +77,43 @@ public class config {
     }
 
     static void zoomIn() {
-        zoomLevel += 10;
-        ImageIcon icon = (ImageIcon)renderImg.getIcon();
-        Image img = icon.getImage();
-        Image newImg = img.getScaledInstance(img.getWidth(null) * zoomLevel / 100, img.getHeight(null) * zoomLevel / 100, Image.SCALE_SMOOTH);
-        ImageIcon newIcon = new ImageIcon(newImg);
-        renderImg.setIcon(newIcon);
+        ImageIcon icon = (ImageIcon) renderImg.getIcon();
+        Image image = icon.getImage();
+        int newWidth = (int) (image.getWidth(null) * 1.1);
+        int newHeight = (int) (image.getHeight(null) * 1.1);
+        Image newImage = image.getScaledInstance(newWidth, newHeight, java.awt.Image.SCALE_SMOOTH);
+        renderImg.setIcon(new ImageIcon(newImage));
         renderImg.repaint();
     }
 
     static void zoomOut() {
-        zoomLevel -= 10;
-        ImageIcon icon = (ImageIcon)renderImg.getIcon();
-        Image img = icon.getImage();
-        Image newImg = img.getScaledInstance(img.getWidth(null) * zoomLevel / 100, img.getHeight(null) * zoomLevel / 100, Image.SCALE_SMOOTH);
-        ImageIcon newIcon = new ImageIcon(newImg);
-        renderImg.setIcon(newIcon);
+        ImageIcon icon = (ImageIcon) renderImg.getIcon();
+        Image image = icon.getImage();
+        int newWidth = (int) (image.getWidth(null) * 0.9);
+        int newHeight = (int) (image.getHeight(null) * 0.9);
+        Image newImage = image.getScaledInstance(newWidth, newHeight, java.awt.Image.SCALE_SMOOTH);
+        renderImg.setIcon(new ImageIcon(newImage));
         renderImg.repaint();
     }
     public static void readImg() {
         try {
-
-
+            editWindow.setVisible(true);
             File file = new File(home + File.separator + "JEdit" + File.separator + "path.txt");
             BufferedReader reader = new BufferedReader(new FileReader(file));
             path = reader.readLine();
             reader.close();
-            ImageIcon icon = new ImageIcon(path);
-            Image img = icon.getImage();
-            Image newimg = img.getScaledInstance(600,400,  java.awt.Image.SCALE_SMOOTH);
 
-            renderImg.setIcon((Icon) new ImageIcon(newimg));
+            temp = new ImageIcon(path);
+
+            imgResize.load();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
+    static void reload(){
+        renderImg.setVisible(false);
+    }
     public static void createCnfg() {
         File folder = new File(home + File.separator + "JEdit");
         if (!folder.exists()) {
