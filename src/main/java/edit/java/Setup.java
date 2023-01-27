@@ -10,6 +10,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import static edit.java.utils.config.createCnfg;
 import static edit.java.utils.config.home;
+import static edit.java.utils.imgEffects.orgImage;
 
 public class Setup extends JFrame implements MouseListener {
 
@@ -59,7 +60,7 @@ public class Setup extends JFrame implements MouseListener {
                             imageLabel.setIcon(image);
                             Setup.file = file;
                         } else {
-                            JOptionPane.showMessageDialog(null, "Invalid file type. Please drop a PNG image file.");
+                            JOptionPane.showMessageDialog(null, "Please drop a PNG / JPEG");
                         }
                     }
 
@@ -96,7 +97,6 @@ public class Setup extends JFrame implements MouseListener {
         enterButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 createCnfg();
-
                 FileWriter writer = null;
                 try {
                     writer = new FileWriter(home + File.separator + "JEdit" + File.separator + "path.txt");
@@ -124,14 +124,14 @@ public class Setup extends JFrame implements MouseListener {
 
                 dispose();
                 new Editor();
-
+                orgImage();
             }
         });
         buttonPanel.add(enterButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
 
-        setTitle("Image Drop GUI");
+        setTitle("Select image");
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);

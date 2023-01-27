@@ -8,53 +8,107 @@ import java.awt.*;
 import java.io.*;
 
 import static edit.java.Editor.*;
-import static edit.java.Setup.*;
-import static edit.java.utils.imgResize.shouldScale;
+import static edit.java.utils.imgEffects.orgImage;
+import static edit.java.utils.imgEffects.reload;
+import static edit.java.utils.otherUtils.*;
 
 public class config {
     public static String path;
     private static JMenuBar menuBar;
     private static JMenu fileoption;
+    private static JMenu editOption;
     private static JMenu view;
     private static JMenuItem exit;
     private static JMenuItem open;
     private static JMenuItem zoomIn;
     private static JMenuItem zoomOut;
     private static JMenuItem reload;
+
+    //effects ->
+    private static JMenuItem black;
+    private static JMenuItem blur;
+    private static JMenuItem sepia;
+    private static JMenuItem invert;
+    private static JMenuItem emboss;
+
+
     public static ImageIcon temp;
+    public static Color borderColor = new Color(238, 130, 238);
 
 
     public static String home = System.getProperty("user.home");
 
 
     public static void load() {
-
+        otherUtils.boxClick();
         menuBar = new JMenuBar();
+        menuBar.setBackground(bg);
+        menuBar.setBorderPainted(false);
         fileoption = new JMenu("File");
+        fileoption.setForeground(Color.lightGray);
         view = new JMenu("View");
+        editOption = new JMenu("Edit");
+        editOption.setForeground(Color.lightGray);
+        view.setForeground(Color.lightGray);
         exit = new JMenuItem("Exit");
         open = new JMenuItem("Open");
         reload = new JMenuItem("Reload");
         zoomIn = new JMenuItem("Zoom In");
         zoomOut = new JMenuItem("Zoom Out");
+        blur = new JMenuItem("Blur");
+        black = new JMenuItem("B/W");
+        sepia = new JMenuItem("Senpia");
+        invert = new JMenuItem("Invert");
+        emboss = new JMenuItem("Emboss");
+
         exit.addActionListener(e -> exit());
         open.addActionListener(e -> open());
         zoomIn.addActionListener(e -> zoomIn());
         zoomOut.addActionListener(e -> zoomOut());
         reload.addActionListener(e -> reload());
+        black.addActionListener(e -> imgEffects.black());
+        blur.addActionListener(e -> imgEffects.blur());
+        sepia.addActionListener(e -> imgEffects.sepia());
+        invert.addActionListener(e -> imgEffects.invert());
+        emboss.addActionListener(e -> imgEffects.emboss());
         fileoption.add(open);
 
-        Color borderColor = new Color(238, 130, 238);
+        zoomIn.setBackground(bg);
+        invert.setBackground(bg);
+        emboss.setBackground(bg);
+        blur.setBackground(bg);
+        black.setBackground(bg);
+        zoomOut.setBackground(bg);
+        sepia.setBackground(bg);
+        reload.setBackground(bg);
+        open.setBackground(bg);
+        exit.setBackground(bg);
+        zoomIn.setForeground(Color.lightGray);
+        sepia.setForeground(Color.lightGray);
+        emboss.setForeground(Color.lightGray);
+        invert.setForeground(Color.lightGray);
+        blur.setForeground(Color.lightGray);
+        black.setForeground(Color.lightGray);
+        zoomOut.setForeground(Color.lightGray);
+        reload.setForeground(Color.lightGray);
+        open.setForeground(Color.lightGray);
+        exit.setForeground(Color.lightGray);
+
         renderImg.setBorder(new LineBorder(borderColor, 2));
         fileoption.add(exit);
         view.add(reload);
-        view.addSeparator();
         view.add(zoomIn);
         view.add(zoomOut);
+        editOption.add(blur);
+        editOption.add(black);
+        editOption.add(emboss);
+        editOption.add(invert);
+        editOption.add(sepia);
         menuBar.add(fileoption);
         menuBar.add(view);
+        menuBar.add(editOption);
         readImg();
-
+        saving();
 
         renderImg.requestFocusInWindow();
         renderImg.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
@@ -63,7 +117,7 @@ public class config {
         editWindow.setJMenuBar(menuBar);
         editWindow.setResizable(true);
         editWindow.setSize(600, 400);
-        editWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        editWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         editWindow.setVisible(true);
     }
 
@@ -76,25 +130,6 @@ public class config {
         editWindow.dispose();
     }
 
-    static void zoomIn() {
-        ImageIcon icon = (ImageIcon) renderImg.getIcon();
-        Image image = icon.getImage();
-        int newWidth = (int) (image.getWidth(null) * 1.1);
-        int newHeight = (int) (image.getHeight(null) * 1.1);
-        Image newImage = image.getScaledInstance(newWidth, newHeight, java.awt.Image.SCALE_SMOOTH);
-        renderImg.setIcon(new ImageIcon(newImage));
-        renderImg.repaint();
-    }
-
-    static void zoomOut() {
-        ImageIcon icon = (ImageIcon) renderImg.getIcon();
-        Image image = icon.getImage();
-        int newWidth = (int) (image.getWidth(null) * 0.9);
-        int newHeight = (int) (image.getHeight(null) * 0.9);
-        Image newImage = image.getScaledInstance(newWidth, newHeight, java.awt.Image.SCALE_SMOOTH);
-        renderImg.setIcon(new ImageIcon(newImage));
-        renderImg.repaint();
-    }
     public static void readImg() {
         try {
             editWindow.setVisible(true);
@@ -105,14 +140,11 @@ public class config {
 
             temp = new ImageIcon(path);
 
-            imgResize.load();
+            otherUtils.load();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-    static void reload(){
-        renderImg.setVisible(false);
     }
     public static void createCnfg() {
         File folder = new File(home + File.separator + "JEdit");
