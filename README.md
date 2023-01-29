@@ -1,3 +1,7 @@
-# JEdit
-we love editing images with java
-https://iharder.sourceforge.net/current/java/filedrop/ <-- idea from
+# **JEdit 1.0**
+Info :
+```
+- Use png for less bugs
+- If any bugs please report
+- Better jpg support soon ™
+```
