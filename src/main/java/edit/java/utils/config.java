@@ -3,6 +3,7 @@ package edit.java.utils;
 import edit.java.Setup;
 import edit.java.utils.paint.chooseCol;
 import edit.java.utils.paint.paint;
+import edit.java.utils.paint.shapeUtils;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -30,7 +31,8 @@ public class config {
     public static JMenuItem toggle;
     private static JMenuItem color;
     private static JMenuItem size;
-    private static JMenuItem shapes;
+    public static JMenuItem shapes;
+    private static JMenuItem save;
 
 
     //effects ->
@@ -64,6 +66,7 @@ public class config {
         paint1.setForeground(Color.lightGray);
         exit = new JMenuItem("Exit");
         open = new JMenuItem("Open");
+        save = new JMenuItem("Save");
         reload = new JMenuItem("Reload");
         zoomIn = new JMenuItem("Zoom In");
         zoomOut = new JMenuItem("Zoom Out");
@@ -78,8 +81,9 @@ public class config {
         shapes = new JMenuItem("Shapes");
 
 
-        exit.addActionListener(e -> exit());
+        exit.addActionListener(e -> otherUtils.exiting());
         open.addActionListener(e -> open());
+        save.addActionListener(e -> otherUtils.saveImgState());
         zoomIn.addActionListener(e -> zoomIn());
         zoomOut.addActionListener(e -> zoomOut());
         reload.addActionListener(e -> reload());
@@ -91,6 +95,7 @@ public class config {
         toggle.addActionListener(e -> stateValue());
         color.addActionListener(e -> chooseCol.load());
         size.addActionListener(e -> paint.setSize());
+        shapes.addActionListener(e -> shapeUtils.load());
         fileoption.add(open);
 
         zoomIn.setBackground(bg);
@@ -104,11 +109,13 @@ public class config {
         open.setBackground(bg);
         exit.setBackground(bg);
         toggle.setBackground(bg);
+        save.setBackground(bg);
         color.setBackground(bg);
         size.setBackground(bg);
         shapes.setBackground(bg);
         toggle.setForeground(Color.lightGray);
         color.setForeground(Color.lightGray);
+        save.setForeground(Color.lightGray);
         size.setForeground(Color.lightGray);
         shapes.setForeground(Color.lightGray);
         zoomIn.setForeground(Color.lightGray);
@@ -140,8 +147,11 @@ public class config {
         menuBar.add(view);
         menuBar.add(editOption);
         menuBar.add(paint1);
+        fileoption.add(save);
         readImg();
         saving();
+
+
 
         renderImg.requestFocusInWindow();
         renderImg.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
@@ -157,10 +167,6 @@ public class config {
     static void open() {
         editWindow.dispose();
         new Setup();
-    }
-
-    static void exit() {
-        editWindow.dispose();
     }
 
     public static void readImg() {

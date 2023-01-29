@@ -97,6 +97,7 @@ public class Setup extends JFrame implements MouseListener {
         enterButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 createCnfg();
+
                 FileWriter writer = null;
                 try {
                     writer = new FileWriter(home + File.separator + "JEdit" + File.separator + "path.txt");

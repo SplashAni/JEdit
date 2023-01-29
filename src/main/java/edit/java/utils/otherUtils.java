@@ -68,9 +68,13 @@ public class otherUtils {
         JMenuItem zoomOut = new JMenuItem("ZoomOut");
         zoomOut.setForeground(Color.lightGray);
         popupMenu.add(zoomOut);
+        JMenuItem save = new JMenuItem("Save");
+        save.setForeground(Color.lightGray);
+        popupMenu.add(save);
         popupMenu.setBorder(new LineBorder(Color.lightGray, 1));
         zoomIn.setBackground(bg);
         zoomOut.setBackground(bg);
+        save.setBackground(bg);
 
         zoomIn.addActionListener(e -> zoomIn());
         zoomOut.addActionListener(e -> zoomOut());
@@ -84,33 +88,6 @@ public class otherUtils {
         });
     }
 
-    public static void saving() {
-        editWindow.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                int result = JOptionPane.showOptionDialog(null, "Save changes", "Save", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Yes", "No"}, "Yes");
-                if (result == JOptionPane.YES_OPTION) {
-                    File delete = new File(newPath);
-                    if(delete.exists()){
-                        delete.delete();
-                    }
-                    try {
-                        Desktop.getDesktop().open(new File(path));
-                        editWindow.setVisible(false);
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                } else if (result == JOptionPane.NO_OPTION) {
-                    File org = new File(newPath);
-
-                    if(org.exists()){
-                        org.delete();
-                    }
-                    editWindow.setVisible(false);
-                }
-            }
-        });
-    }
     public static void saveImgState() {
         try {
             File inputFile = new File(newPath);
@@ -118,8 +95,70 @@ public class otherUtils {
 
             File output = new File(newPath);
             ImageIO.write(savethispls, "png", output);
+            renderImg.repaint();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void saving() {
+        editWindow.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                exiting();
+            }
+        });
+    }
+
+    public static void exiting() {
+        int result = JOptionPane.showOptionDialog(null, "Save changes", "Save", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Yes", "No"}, "Yes");
+        if (result == JOptionPane.YES_OPTION) {
+            File delete = new File(newPath);
+            if (delete.exists()) {
+                delete.delete();
+            }
+            try {
+                Desktop.getDesktop().open(new File(path));
+                editWindow.dispose();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        } else if (result == JOptionPane.NO_OPTION) {
+            File org = new File(newPath);
+
+            if (org.exists()) {
+                org.delete();
+            }
+            editWindow.dispose();
+        }
+    }
+
+    public static void shapes() {
+        JFrame shapeFrame = new JFrame("Shapes");
+
+        JRadioButton triangleButton = new JRadioButton("Triangle");
+        JRadioButton circleButton = new JRadioButton("Circle");
+        JRadioButton squareButton = new JRadioButton("Square");
+        JRadioButton rectangleButton = new JRadioButton("Rectangle");
+
+        ButtonGroup shapeGroup = new ButtonGroup();
+        shapeGroup.add(triangleButton);
+        shapeGroup.add(circleButton);
+        shapeGroup.add(squareButton);
+        shapeGroup.add(rectangleButton);
+
+        JPanel shapePanel = new JPanel();
+        shapePanel.add(triangleButton);
+        shapePanel.add(circleButton);
+        shapePanel.add(squareButton);
+        shapePanel.add(rectangleButton);
+
+        // Add panel to JFrame
+        shapeFrame.add(shapePanel);
+
+        // Set JFrame properties
+        shapeFrame.setSize(300, 150);
+        shapeFrame.setLocationRelativeTo(null);
+        shapeFrame.setVisible(true);
     }
 }
