@@ -55,7 +55,7 @@ public class Setup extends JFrame implements MouseListener {
                     java.util.List<File> files = (java.util.List<File>) support.getTransferable()
                             .getTransferData(DataFlavor.javaFileListFlavor);
                     for (File file : files) {
-                        if (file.getName().endsWith(".png") || file.getName().endsWith(".jpeg")) {
+                        if (file.getName().endsWith(".png") || file.getName().endsWith(".jpg")) {
                             ImageIcon image = new ImageIcon(file.getAbsolutePath());
                             imageLabel.setIcon(image);
                             Setup.file = file;

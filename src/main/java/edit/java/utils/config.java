@@ -1,6 +1,8 @@
 package edit.java.utils;
 
 import edit.java.Setup;
+import edit.java.utils.paint.chooseCol;
+import edit.java.utils.paint.paint;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -8,21 +10,28 @@ import java.awt.*;
 import java.io.*;
 
 import static edit.java.Editor.*;
-import static edit.java.utils.imgEffects.orgImage;
+import static edit.java.utils.imgEffects.newPath;
 import static edit.java.utils.imgEffects.reload;
 import static edit.java.utils.otherUtils.*;
+import static edit.java.utils.paint.paint.stateValue;
 
 public class config {
     public static String path;
     private static JMenuBar menuBar;
     private static JMenu fileoption;
     private static JMenu editOption;
+    private static JMenu paint1;
     private static JMenu view;
     private static JMenuItem exit;
     private static JMenuItem open;
     private static JMenuItem zoomIn;
     private static JMenuItem zoomOut;
     private static JMenuItem reload;
+    public static JMenuItem toggle;
+    private static JMenuItem color;
+    private static JMenuItem size;
+    private static JMenuItem shapes;
+
 
     //effects ->
     private static JMenuItem black;
@@ -47,9 +56,12 @@ public class config {
         fileoption = new JMenu("File");
         fileoption.setForeground(Color.lightGray);
         view = new JMenu("View");
+        paint1 = new JMenu("Paint");
         editOption = new JMenu("Edit");
+
         editOption.setForeground(Color.lightGray);
         view.setForeground(Color.lightGray);
+        paint1.setForeground(Color.lightGray);
         exit = new JMenuItem("Exit");
         open = new JMenuItem("Open");
         reload = new JMenuItem("Reload");
@@ -60,6 +72,11 @@ public class config {
         sepia = new JMenuItem("Senpia");
         invert = new JMenuItem("Invert");
         emboss = new JMenuItem("Emboss");
+        toggle = new JMenuItem("Toggle [F]");
+        color = new JMenuItem("Color");
+        size = new JMenuItem("Size");
+        shapes = new JMenuItem("Shapes");
+
 
         exit.addActionListener(e -> exit());
         open.addActionListener(e -> open());
@@ -71,6 +88,9 @@ public class config {
         sepia.addActionListener(e -> imgEffects.sepia());
         invert.addActionListener(e -> imgEffects.invert());
         emboss.addActionListener(e -> imgEffects.emboss());
+        toggle.addActionListener(e -> stateValue());
+        color.addActionListener(e -> chooseCol.load());
+        size.addActionListener(e -> paint.setSize());
         fileoption.add(open);
 
         zoomIn.setBackground(bg);
@@ -83,6 +103,14 @@ public class config {
         reload.setBackground(bg);
         open.setBackground(bg);
         exit.setBackground(bg);
+        toggle.setBackground(bg);
+        color.setBackground(bg);
+        size.setBackground(bg);
+        shapes.setBackground(bg);
+        toggle.setForeground(Color.lightGray);
+        color.setForeground(Color.lightGray);
+        size.setForeground(Color.lightGray);
+        shapes.setForeground(Color.lightGray);
         zoomIn.setForeground(Color.lightGray);
         sepia.setForeground(Color.lightGray);
         emboss.setForeground(Color.lightGray);
@@ -104,9 +132,14 @@ public class config {
         editOption.add(emboss);
         editOption.add(invert);
         editOption.add(sepia);
+        paint1.add(toggle);
+        paint1.add(color);
+        paint1.add(size);
+        paint1.add(shapes);
         menuBar.add(fileoption);
         menuBar.add(view);
         menuBar.add(editOption);
+        menuBar.add(paint1);
         readImg();
         saving();
 
@@ -138,7 +171,7 @@ public class config {
             path = reader.readLine();
             reader.close();
 
-            temp = new ImageIcon(path);
+            temp = new ImageIcon(newPath);
 
             otherUtils.load();
 

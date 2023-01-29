@@ -1,9 +1,11 @@
 package edit.java.utils;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -22,6 +24,7 @@ public class otherUtils {
     public static void load() {
         editWindow.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
+                saveImgState();
                 width = editWindow.getWidth();
                 height = editWindow.getHeight();
 
@@ -35,6 +38,7 @@ public class otherUtils {
     }
 
     public static void zoomIn() {
+        saveImgState();
         ImageIcon icon = (ImageIcon) renderImg.getIcon();
         Image image = icon.getImage();
         int newWidth = (int) (image.getWidth(null) * 1.1);
@@ -52,6 +56,7 @@ public class otherUtils {
         Image newImage = image.getScaledInstance(newWidth, newHeight, java.awt.Image.SCALE_SMOOTH);
         renderImg.setIcon(new ImageIcon(newImage));
         renderImg.repaint();
+        saveImgState();
     }
 
     public static void boxClick() {
@@ -96,18 +101,25 @@ public class otherUtils {
                         throw new RuntimeException(ex);
                     }
                 } else if (result == JOptionPane.NO_OPTION) {
-                    File org = new File(path);
+                    File org = new File(newPath);
+
                     if(org.exists()){
                         org.delete();
                     }
-                    try {
-                        Desktop.getDesktop().open(new File(newPath));
-                        editWindow.setVisible(false);
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    editWindow.setVisible(false);
                 }
             }
         });
+    }
+    public static void saveImgState() {
+        try {
+            File inputFile = new File(newPath);
+            BufferedImage savethispls = ImageIO.read(inputFile);
+
+            File output = new File(newPath);
+            ImageIO.write(savethispls, "png", output);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

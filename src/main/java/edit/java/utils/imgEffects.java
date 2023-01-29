@@ -31,12 +31,12 @@ public class imgEffects {
     }
 
     static int dotPngIndex = path.lastIndexOf(".png");
-    public static String  newPath = path.substring(0, dotPngIndex) + "_copy" + path.substring(dotPngIndex);
+    public static String  newPath = path.substring(0, dotPngIndex) + "_edited" + path.substring(dotPngIndex);
 
     private static JSlider slider;
 
     public static void black() {
-        File file = new File(path);
+        File file = new File(newPath);
         BufferedImage orginalImage = null;
         try {
             orginalImage = ImageIO.read(file);
@@ -51,12 +51,19 @@ public class imgEffects {
         Graphics2D graphics = blackAndWhiteImg.createGraphics();
         graphics.drawImage(orginalImage, 0, 0, null);
 
+        String fileExtension = getFileExtension(file.getName());
+
         try {
-            ImageIO.write(blackAndWhiteImg, "png", new File(path));
+            ImageIO.write(blackAndWhiteImg, fileExtension, new File(newPath));
             reload();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static String getFileExtension(String fileName) {
+        int dotIndex = fileName.lastIndexOf('.');
+        return (dotIndex == -1) ? "" : fileName.substring(dotIndex + 1);
     }
 
     public static void blur() {
@@ -79,19 +86,19 @@ public class imgEffects {
                     if(slider.getValueIsAdjusting() && blurAmount == 0){
                         setOrgImg();
                     }else{
-                        ImageIcon icon = new ImageIcon(path);
+                        ImageIcon icon = new ImageIcon(newPath);
                         float[] matrix = new float[blurAmount * blurAmount];
                         Arrays.fill(matrix, 1.0f / (float) (blurAmount * blurAmount));
                         Kernel kernel = new Kernel(blurAmount, blurAmount, matrix);
                         ConvolveOp op = new ConvolveOp(kernel);
                         BufferedImage blurredImage = null;
                         try {
-                            blurredImage = op.filter(ImageIO.read(new File(path)), null);
+                            blurredImage = op.filter(ImageIO.read(new File(newPath)), null);
                         } catch (IOException ex) {
                             throw new RuntimeException(ex);
                         }
 
-                        File outputFile = new File(path);
+                        File outputFile = new File(newPath);
                         try {
                             ImageIO.write(blurredImage, "png", outputFile);
                             reload();
@@ -143,7 +150,7 @@ public class imgEffects {
                     image.setRGB(x, y, p);
                 }
             }
-            ImageIO.write(image, "png", new File(path));
+                ImageIO.write(image, "png", new File(newPath));
             reload();
         } catch (IOException e) {
             e.printStackTrace();
@@ -170,7 +177,7 @@ public class imgEffects {
                 }
             }
 
-            ImageIO.write(image, "png", new File(path));
+            ImageIO.write(image, "png", new File(newPath));
             reload();
         } catch (IOException e) {
             e.printStackTrace();
@@ -225,7 +232,7 @@ public class imgEffects {
                 }
             }
 
-            ImageIO.write(embossed, "png", new File(path));
+            ImageIO.write(embossed, "png", new File(newPath));
             reload();
         } catch (Exception e) {
             e.printStackTrace();
