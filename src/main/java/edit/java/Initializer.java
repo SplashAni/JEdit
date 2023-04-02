@@ -38,7 +38,7 @@ public class Initializer extends JFrame implements MouseListener { // guis will 
         ImageIcon icon = Visuals.transparentIcon("setting.png", 25, 25); // if im being honest this took forever
         JButton button1 = Visuals.transparentButton(icon);
 
-        JButton button2 = new JButton("ok");
+        JButton button2 = Visuals.defaultButton("Edit");
         button2.setForeground(Color.black);
 
         buttonManager.setLayout(new FlowLayout());

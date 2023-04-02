@@ -3,6 +3,7 @@ package edit.java.Utils;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -34,7 +35,18 @@ public class Visuals {
         JButton button = new JButton(icon);
         button.setContentAreaFilled(false);
         button.setFocusPainted(false);
+        button.setBorderPainted(false);
         button.setForeground(Color.black);
+        return button;
+    }
+    public static JButton defaultButton(String text) {
+        JButton button = new JButton(text);
+        button.setContentAreaFilled(false);
+        button.setFocusPainted(false);
+        button.setBorderPainted(false);
+        button.setForeground(Color.black);
+        Font font = new Font("Arial", Font.BOLD, 13); // set the font to Arial, with a size of 12
+        button.setFont(font);
         return button;
     }
 }
