@@ -1,5 +1,7 @@
 package edit.java.Config;
 
+import edit.java.Utils.Utils;
+
 import javax.swing.*;
 
 import java.io.IOException;
@@ -13,7 +15,9 @@ public class Config {
         if (!hasWifi()) JOptionPane.showMessageDialog(null, "You need wifi to setup", "):", JOptionPane.ERROR_MESSAGE);
         else if (!hasDir()) MainFile.mkdir();
 
-        downloadImg("https://assets.stickpng.com/images/6002fa9051c2ec00048c6c7a.png","setting.png");
+        if(!imgPath.exists()) {
+            downloadImg("https://assets.stickpng.com/images/6002fa9051c2ec00048c6c7a.png", "setting.png");
+        }
 
     }
 }

@@ -12,6 +12,7 @@ import static java.io.File.separator;
 public class Utils {
     public static final String MainPath = System.getProperty("user.home") + separator + "JEdit"; // do this once right pls
     public static final File MainFile = new File(MainPath);
+    public static File imgPath = new File(MainPath + separator + "Images");
 
     public static boolean hasWifi() {
         try {
@@ -31,7 +32,6 @@ public class Utils {
     }
 
     public static void downloadImg(String imageUrl, String name) throws IOException { // we not using try chatches ok??
-        File imgPath = new File(MainPath + separator + "Images");
         if (!imgPath.exists()) {
             imgPath.mkdir();
         }
