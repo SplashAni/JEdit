@@ -2,13 +2,18 @@ package edit.java.Config;
 
 import javax.swing.*;
 
+import java.io.IOException;
+
 import static edit.java.Utils.Utils.*;
 
 public class Config {
     private JProgressBar progressBar;
 
-    public void init() {
+    public static void init() throws IOException {
         if (!hasWifi()) JOptionPane.showMessageDialog(null, "You need wifi to setup", "):", JOptionPane.ERROR_MESSAGE);
         else if (!hasDir()) MainFile.mkdir();
+
+        downloadImg("https://assets.stickpng.com/images/6002fa9051c2ec00048c6c7a.png","setting.png");
+
     }
 }

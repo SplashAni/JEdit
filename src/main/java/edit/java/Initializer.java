@@ -1,17 +1,21 @@
 package edit.java;
 
 
+import edit.java.Utils.Utils;
 import edit.java.Utils.Visuals;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Initializer extends JFrame implements MouseListener { // guis will be done in 1 thread (doesnt take much time)
 
     private static JLabel heading;
-    public Initializer() {
+    public Initializer() throws IOException {
         super("Insert image");
 
         JPanel buttonManager = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
@@ -29,8 +33,11 @@ public class Initializer extends JFrame implements MouseListener { // guis will 
         heading.setFont(new Font("Helvetica", Font.BOLD, 12));
         add(heading, BorderLayout.NORTH);
 
-        JButton button1 = new JButton("ok"); // goign to be icon
-        button1.setForeground(Color.black);
+
+
+        ImageIcon icon = Visuals.transparentIcon("setting.png", 25, 25); // if im being honest this took forever
+        JButton button1 = Visuals.transparentButton(icon);
+
         JButton button2 = new JButton("ok");
         button2.setForeground(Color.black);
 
