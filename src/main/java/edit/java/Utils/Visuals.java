@@ -129,34 +129,36 @@ public class Visuals {
                 }
                 break;
             case 4:
-                int option = JOptionPane.showOptionDialog(null,
-                        "Choose a type: ",
+                int option = JOptionPane.showOptionDialog(
+                        null,
+                        "Choose a type:",
                         "Button type",
                         JOptionPane.DEFAULT_OPTION,
                         JOptionPane.PLAIN_MESSAGE,
                         null,
-                        new Object[]{"Flat", "Custom"},
+                        new Object[]{"Flat", "Default"},
                         "Flat");
 
-                if (option == 1) {
-                    JFileChooser fileChooser = new JFileChooser();
-                    fileChooser.setFileFilter(new FileNameExtensionFilter("jpg or png", "jpg", "jpeg", "png"));
-                    int path = fileChooser.showOpenDialog(null);
-
-                    if (path == JFileChooser.APPROVE_OPTION) {
-                        File fileResult = fileChooser.getSelectedFile();
-                        write(1, "button.cfg", fileResult.getAbsolutePath());
-                    }
-                } else if (option == 0) {
-                    write(1, "button.cfg", "default");
+                if (option == 0) {
+                    write(1, "button.cfg", "Flat");
+                } else if (option == 1) {
+                    write(1,"button.cfg","Default");
                 }
                 break;
         }
     }
-
-    public static JButton settingButton() throws IOException {
+            public static JButton settingButton() throws IOException {
         String buttonConfig = read(1, "button.cfg");
-        if (buttonConfig == null || buttonConfig.trim().equals("default")) {
+
+        if (buttonConfig != null && buttonConfig.contains("Flat")) {
+            JButton button = new JButton("Settings");
+            button.setForeground(Color.GRAY);
+            button.setForeground(new Color(58, 54, 54));
+            button.setBackground(Color.gray);
+            button.setBorderPainted(false);
+            button.setFocusPainted(false);
+            return button;
+        } else {
             ImageIcon icon = Visuals.transparentIcon("setting.png", 25, 25);
             JButton button = Visuals.transparentButton(icon);
             button.addMouseListener(new MouseAdapter() {
@@ -176,23 +178,6 @@ public class Visuals {
                 }
             });
             return button;
-        } else {
-            assert buttonConfig != null;
-            if (buttonConfig.equals("flat")) {
-                JButton button = new JButton("Settings");
-                button.setForeground(Color.GRAY);
-                button.setForeground(new Color(58, 54, 54));
-                button.setBackground(Color.gray);
-                button.setBorderPainted(false);
-                button.setFocusPainted(false);
-                return button;
-            } else {
-                ImageIcon customIcon = new ImageIcon(read(1,"button.cfg"));
-                Image image = customIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-                ImageIcon resizedIcon = new ImageIcon(image);
-                JButton button = new JButton(resizedIcon);
-                return button;
-            }
         }
     }
 }

@@ -1,6 +1,7 @@
 package edit.java;
 
 
+import edit.java.Config.Windows;
 import edit.java.Utils.Visuals;
 
 import javax.swing.*;
@@ -34,9 +35,6 @@ public class Initializer extends JFrame implements MouseListener { // guis will 
         heading.setFont(new Font("Helvetica", Font.BOLD, Visuals.size()));
         add(heading, BorderLayout.NORTH);
 
-
-
-
         JButton enter = new JButton("Enter");
         enter.setForeground(Color.GRAY);
         enter.setForeground(new Color(58, 54, 54));
@@ -45,7 +43,10 @@ public class Initializer extends JFrame implements MouseListener { // guis will 
         enter.setFocusPainted(false);
 
         JButton setting = settingButton();
-        setting.addActionListener(e -> System.out.println("yes"));
+        setting.addActionListener(e -> {
+            this.dispose();
+            Windows.loader();
+        });
 
         buttonManager.setLayout(new FlowLayout());
         buttonManager.setBackground(background());

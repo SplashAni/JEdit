@@ -1,5 +1,6 @@
 package edit.java.Config;
 
+import edit.java.Initializer;
 import edit.java.Utils.FileUtils;
 import edit.java.Utils.Visuals;
 
@@ -19,7 +20,7 @@ public class Windows {
         JFrame l = new JFrame("Edit Window");
         l.getContentPane().setBackground(background());
         l.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        l.setSize(600, 400);
+        l.setSize(650, 500);
         l.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         l.setLayout(new BorderLayout());
 
@@ -29,18 +30,16 @@ public class Windows {
         titleLabel.setForeground(Color.WHITE);
         l.add(titleLabel, BorderLayout.NORTH);
 
-
         JPanel textPanel = new JPanel(new GridLayout(4, 2));
         textPanel.setPreferredSize(new Dimension(500, 200));
         textPanel.setBackground(background());
         textPanel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createEmptyBorder(10, 10, 10, 10),
                 BorderFactory.createEmptyBorder()));
-        textPanel.setBorder(Visuals.border(3));
+        textPanel.setBorder(Visuals.border(1));
 
         JLabel[] ls = new JLabel[4];
         JButton[] bs = new JButton[4];
-
 
         String[] titles = {"Background", "Border", "Size", "Button"};
         String[] options = {"Default [Gray]","Default [Purple]", "Default [+ / - 0]", "Default [Icon.png]"};
@@ -54,7 +53,7 @@ public class Windows {
             bs[i].setBorderPainted(false);
             bs[i].setFocusPainted(false);
             bs[i].setForeground(Color.LIGHT_GRAY);
-            bs[i].setBackground(new Color(65, 63, 63));
+            bs[i].setBackground(background());
             textPanel.add(ls[i]);
             textPanel.add(bs[i]);
         }
@@ -70,6 +69,32 @@ public class Windows {
         }
 
         l.add(textPanel, BorderLayout.CENTER);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.setBackground(background());
+
+        JButton cancelButton = new JButton("Cancel");
+        cancelButton.addActionListener(e -> {
+            try {
+                new Initializer();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        buttonPanel.add(cancelButton);
+
+        JButton saveButton = new JButton("Apply");
+        saveButton.addActionListener(e -> {
+            l.dispose();
+            try {
+                new Initializer();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        buttonPanel.add(saveButton);
+
+        l.add(buttonPanel, BorderLayout.SOUTH);
 
         l.setVisible(true);
     }
