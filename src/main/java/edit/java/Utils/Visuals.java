@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -90,20 +92,21 @@ public class Visuals {
         button.setForeground(Color.black);
         return button;
     }
+
     public static void loaderGui(int state) throws IOException {
-        switch (state){
+        switch (state) {
             case 1:
                 Color bg = JColorChooser.showDialog(null, "Choose a background color", new Color(65, 61, 61));
-                if(bg != null){
+                if (bg != null) {
                     String background = String.format("%d,%d,%d", bg.getRed(), bg.getGreen(), bg.getBlue());
-                    write(1,"bg.cfg",background);
+                    write(1, "bg.cfg", background);
                 }
                 break;
             case 2:
-                Color border = JColorChooser.showDialog(null, "Choose a background color",new Color(238, 130, 238));
-                if(border != null){
+                Color border = JColorChooser.showDialog(null, "Choose a background color", new Color(238, 130, 238));
+                if (border != null) {
                     String b = String.format("%d,%d,%d", border.getRed(), border.getGreen(), border.getBlue());
-                    write(1,"border.cfg",b);
+                    write(1, "border.cfg", b);
                 }
             case 3:
                 Integer[] range = new Integer[16];
@@ -122,7 +125,7 @@ public class Visuals {
                         "Enter");
                 if (result == JOptionPane.OK_OPTION) {
                     int value = (int) comboBox.getSelectedItem();
-                    write(1,"size.cfg", String.valueOf(value));
+                    write(1, "size.cfg", String.valueOf(value));
                 }
                 break;
             case 4:
@@ -142,13 +145,54 @@ public class Visuals {
 
                     if (path == JFileChooser.APPROVE_OPTION) {
                         File fileResult = fileChooser.getSelectedFile();
-                        write(1,"button.cfg",fileResult.getAbsolutePath());
+                        write(1, "button.cfg", fileResult.getAbsolutePath());
                     }
                 } else if (option == 0) {
-                    write(1,"button.cfg","default");
+                    write(1, "button.cfg", "default");
                 }
                 break;
         }
     }
 
+    public static JButton settingButton() throws IOException {
+        String buttonConfig = read(1, "button.cfg");
+        if (buttonConfig == null || buttonConfig.trim().equals("default")) {
+            ImageIcon icon = Visuals.transparentIcon("setting.png", 25, 25);
+            JButton button = Visuals.transparentButton(icon);
+            button.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    try {
+                        button.setIcon(Visuals.transparentIcon("setting1.png", 25, 25));
+                        button.repaint();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    button.setIcon(icon);
+                }
+            });
+            return button;
+        } else {
+            assert buttonConfig != null;
+            if (buttonConfig.equals("flat")) {
+                JButton button = new JButton("Settings");
+                button.setForeground(Color.GRAY);
+                button.setForeground(new Color(58, 54, 54));
+                button.setBackground(Color.gray);
+                button.setBorderPainted(false);
+                button.setFocusPainted(false);
+                return button;
+            } else {
+                ImageIcon customIcon = new ImageIcon(read(1,"button.cfg"));
+                Image image = customIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+                ImageIcon resizedIcon = new ImageIcon(image);
+                JButton button = new JButton(resizedIcon);
+                return button;
+            }
+        }
+    }
 }

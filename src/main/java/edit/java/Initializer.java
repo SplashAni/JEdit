@@ -5,12 +5,12 @@ import edit.java.Utils.Visuals;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 
 import static edit.java.Utils.Visuals.background;
+import static edit.java.Utils.Visuals.settingButton;
 
 public class Initializer extends JFrame implements MouseListener { // guis will be done in 1 thread (doesnt take much time)
 
@@ -36,37 +36,21 @@ public class Initializer extends JFrame implements MouseListener { // guis will 
 
 
 
-        ImageIcon icon = Visuals.transparentIcon("setting.png", 25, 25); // if im being honest this took forever
 
-        JButton settingGear = Visuals.transparentButton(icon);
-        settingGear.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                try {
-                    settingGear.setIcon(Visuals.transparentIcon("setting1.png", 25, 25));
-                    repaint();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
+        JButton enter = new JButton("Enter");
+        enter.setForeground(Color.GRAY);
+        enter.setForeground(new Color(58, 54, 54));
+        enter.setBackground(Color.gray);
+        enter.setBorderPainted(false);
+        enter.setFocusPainted(false);
 
-            @Override
-            public void mouseExited(MouseEvent e) {
-                settingGear.setIcon(icon);
-            }
-        });
-
-        JButton button2 = new JButton("Enter");
-        button2.setForeground(Color.GRAY);
-        button2.setForeground(new Color(58, 54, 54));
-        button2.setBackground(Color.gray);
-        button2.setBorderPainted(false);
-        button2.setFocusPainted(false);
+        JButton setting = settingButton();
+        setting.addActionListener(e -> System.out.println("yes"));
 
         buttonManager.setLayout(new FlowLayout());
         buttonManager.setBackground(background());
-        buttonManager.add(settingGear);
-        buttonManager.add(button2);
+        buttonManager.add(setting);
+        buttonManager.add(enter);
 
         setSize(750, 550);
         add(buttonManager, BorderLayout.SOUTH);
