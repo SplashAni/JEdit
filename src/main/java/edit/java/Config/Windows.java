@@ -1,9 +1,11 @@
 package edit.java.Config;
 
+import edit.java.Utils.FileUtils;
 import edit.java.Utils.Visuals;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 
 public class Windows {
@@ -11,6 +13,7 @@ public class Windows {
     static JFrame l;
 
     public static void loader() {
+        FileUtils.init(1);
         JFrame l = new JFrame("Edit Window");
         l.getContentPane().setBackground(Visuals.background);
         l.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -53,11 +56,16 @@ public class Windows {
             textPanel.add(ls[i]);
             textPanel.add(bs[i]);
         }
-        bs[0].addActionListener(e -> Visuals.loaderGui(1));
-        bs[1].addActionListener(e -> Visuals.loaderGui(2));
-        bs[2].addActionListener(e -> Visuals.loaderGui(3));
-        bs[3].addActionListener(e -> Visuals.loaderGui(4));
-
+        for (int i = 0; i < bs.length; i++) {
+            int z = i + 1;
+            bs[i].addActionListener(e -> {
+                try {
+                    Visuals.loaderGui(z);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
+        }
 
         l.add(textPanel, BorderLayout.CENTER);
 
