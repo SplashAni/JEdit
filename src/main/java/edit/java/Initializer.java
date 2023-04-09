@@ -35,17 +35,16 @@ public class Initializer extends JFrame implements MouseListener { // guis will 
         heading.setFont(new Font("Helvetica", Font.BOLD, Visuals.size()));
         add(heading, BorderLayout.NORTH);
 
-        JButton enter = new JButton("Enter");
-        enter.setForeground(Color.GRAY);
-        enter.setForeground(new Color(58, 54, 54));
-        enter.setBackground(Color.gray);
-        enter.setBorderPainted(false);
-        enter.setFocusPainted(false);
+        JButton enter = Visuals.defaultButton("Enter");
 
         JButton setting = settingButton();
         setting.addActionListener(e -> {
             this.dispose();
-            Windows.loader();
+            try {
+                Windows.loader();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         });
 
         buttonManager.setLayout(new FlowLayout());

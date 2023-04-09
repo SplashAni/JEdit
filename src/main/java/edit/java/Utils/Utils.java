@@ -7,6 +7,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import static edit.java.Utils.Visuals.*;
 import static java.io.File.separator;
 
 public class Utils {
@@ -52,8 +53,31 @@ public class Utils {
         fos.write(response);
         fos.close();
     }
+
     public static Image readImage(String name) throws IOException {
         File file = new File(MainPath + separator + "Images" + separator + name);
         return ImageIO.read(file);
+    }
+
+    public static String i() {
+        Color background = background();
+        String colorStr = background.equals(new Color(238, 238, 238)) ? "Gray" : String.format("%d,%d,%d", background.getRed(), background.getGreen(), background.getBlue());
+        return String.format("%s [%s]", background.equals(new Color(238, 238, 238)) ? "Default" : "Custom", colorStr);
+    }
+
+    public static String i1() {
+        Color lineColor = border(1).getLineColor();
+        String colorStr = lineColor.equals(new Color(238, 130, 238)) ? "Purple" : String.format("%d,%d,%d", lineColor.getRed(), lineColor.getGreen(), lineColor.getBlue());
+        return String.format("%s [%s]", lineColor.equals(new Color(238, 130, 238)) ? "Default" : "Custom", colorStr);
+    }
+
+    public static String i2() {
+        int size = size();
+        return String.format("%s [%d]", size == 12 ? "Default" : "Custom", size);
+    }
+
+    public static String i3() throws IOException {
+        JButton button = Visuals.settingButton();
+        return String.format("%s [%s]", button.isOpaque() ? "Default" : "Custom", button.isOpaque() ? "Icon" : "Flat");
     }
 }

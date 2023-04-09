@@ -2,6 +2,7 @@ package edit.java.Config;
 
 import edit.java.Initializer;
 import edit.java.Utils.FileUtils;
+import edit.java.Utils.Utils;
 import edit.java.Utils.Visuals;
 
 import javax.swing.*;
@@ -13,11 +14,11 @@ import static edit.java.Utils.Visuals.background;
 
 public class Windows {
 
-    static JFrame l;
+    public static JFrame l;
 
-    public static void loader() {
+    public static void loader() throws IOException {
         FileUtils.init(1);
-        JFrame l = new JFrame("Edit Window");
+        l = new JFrame("Edit Window");
         l.getContentPane().setBackground(background());
         l.setCursor(new Cursor(Cursor.HAND_CURSOR));
         l.setSize(650, 500);
@@ -25,7 +26,7 @@ public class Windows {
         l.setLayout(new BorderLayout());
 
         JLabel titleLabel = new JLabel("Edit window");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        titleLabel.setFont(new Font("Helvetica", Font.BOLD, 24));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         titleLabel.setForeground(Color.WHITE);
         l.add(titleLabel, BorderLayout.NORTH);
@@ -42,14 +43,14 @@ public class Windows {
         JButton[] bs = new JButton[4];
 
         String[] titles = {"Background", "Border", "Size", "Button"};
-        String[] options = {"Default [Gray]","Default [Purple]", "Default [+ / - 0]", "Default [Icon.png]"};
+        String[] options = {Utils.i(), Utils.i1(), Utils.i2(), Utils.i3()};
 
         for (int i = 0; i < 4; i++) {
             ls[i] = new JLabel(titles[i]);
-            ls[i].setFont(new Font("Arial", Font.PLAIN, 18));
+            ls[i].setFont(new Font("Helvetica", Font.PLAIN, 18));
             ls[i].setForeground(Color.LIGHT_GRAY);
             bs[i] = new JButton(options[i]);
-            bs[i].setFont(new Font("Arial", Font.PLAIN, 18));
+            bs[i].setFont(new Font("Helvetica", Font.PLAIN, 18));
             bs[i].setBorderPainted(false);
             bs[i].setFocusPainted(false);
             bs[i].setForeground(Color.LIGHT_GRAY);
@@ -73,18 +74,9 @@ public class Windows {
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.setBackground(background());
 
-        JButton cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(e -> {
-            try {
-                new Initializer();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
-        buttonPanel.add(cancelButton);
+        JButton cancel = Visuals.defaultButton("Cancel");
 
-        JButton saveButton = new JButton("Apply");
-        saveButton.addActionListener(e -> {
+        cancel.addActionListener(e -> {
             l.dispose();
             try {
                 new Initializer();
@@ -92,7 +84,20 @@ public class Windows {
                 throw new RuntimeException(ex);
             }
         });
-        buttonPanel.add(saveButton);
+        buttonPanel.add(cancel);
+
+
+        JButton apply = Visuals.defaultButton("Apply");
+
+        apply.addActionListener(e -> {
+            l.dispose();
+            try {
+                new Initializer();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        buttonPanel.add(apply);
 
         l.add(buttonPanel, BorderLayout.SOUTH);
 

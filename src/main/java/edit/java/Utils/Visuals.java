@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import static edit.java.Config.Windows.l;
 import static edit.java.Utils.FileUtils.read;
 import static edit.java.Utils.FileUtils.write;
 
@@ -92,7 +93,15 @@ public class Visuals {
         button.setForeground(Color.black);
         return button;
     }
-
+    public static JButton defaultButton(String name){
+        JButton button = new JButton(name);
+        button.setForeground(Color.GRAY);
+        button.setForeground(new Color(58, 54, 54));
+        button.setBackground(Color.gray);
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        return button;
+    }
     public static void loaderGui(int state) throws IOException {
         switch (state) {
             case 1:
@@ -100,6 +109,7 @@ public class Visuals {
                 if (bg != null) {
                     String background = String.format("%d,%d,%d", bg.getRed(), bg.getGreen(), bg.getBlue());
                     write(1, "bg.cfg", background);
+                    l.repaint();
                 }
                 break;
             case 2:
@@ -151,12 +161,8 @@ public class Visuals {
         String buttonConfig = read(1, "button.cfg");
 
         if (buttonConfig != null && buttonConfig.contains("Flat")) {
-            JButton button = new JButton("Settings");
-            button.setForeground(Color.GRAY);
-            button.setForeground(new Color(58, 54, 54));
-            button.setBackground(Color.gray);
-            button.setBorderPainted(false);
-            button.setFocusPainted(false);
+            JButton button = defaultButton("Settings");
+
             return button;
         } else {
             ImageIcon icon = Visuals.transparentIcon("setting.png", 25, 25);

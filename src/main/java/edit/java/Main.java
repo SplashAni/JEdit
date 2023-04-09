@@ -7,11 +7,14 @@ import edit.java.Utils.Utils;
 import java.io.FilterOutputStream;
 import java.io.IOException;
 
+import static edit.java.Utils.Visuals.*;
+
 public class Main {
 
 
     public static void main(String[] args) throws IOException {
         //Config.init();
        new Initializer();
+        System.out.println(size());
     }
 }
