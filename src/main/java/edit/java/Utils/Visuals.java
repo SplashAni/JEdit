@@ -2,13 +2,14 @@ package edit.java.Utils;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 public class Visuals {
-    public static Color Background = new Color(65, 61, 61, 247);
+    public static Color background = new Color(65, 61, 61, 247);
 
     public static LineBorder border(int thickness) {
         return new LineBorder(new Color(238, 130, 238), thickness);
@@ -45,8 +46,65 @@ public class Visuals {
         button.setFocusPainted(false);
         button.setBorderPainted(false);
         button.setForeground(Color.black);
-        Font font = new Font("Arial", Font.BOLD, 13); // set the font to Arial, with a size of 12
+        Font font = new Font("Arial", Font.BOLD, 13);
         button.setFont(font);
         return button;
+    }
+    public static void loaderGui(int state){
+        switch (state){
+            case 1:
+                Color bg = JColorChooser.showDialog(null, "Choose a background color", background);
+                if(bg != null){
+                    // write
+                }
+                break;
+            case 2:
+                Color border = JColorChooser.showDialog(null, "Choose a background color",new Color(238, 130, 238));
+                if(border != null){
+
+                }
+            case 3:
+                Integer[] range = new Integer[16];
+                for (int i = 0; i < 16; i++) {
+                    range[i] = i + 1;
+                }
+                JComboBox<Integer> comboBox = new JComboBox<>(range);
+                int result = JOptionPane.showOptionDialog(null,
+                        comboBox,
+                        "Font size",
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        new String[]{"Enter", "Cancel"},
+                        "Enter");
+                if (result == JOptionPane.OK_OPTION) {
+                    int value = (int) comboBox.getSelectedItem();
+                    // print value
+                }
+                break;
+            case 4:
+                int option = JOptionPane.showOptionDialog(null,
+                        "Choose a type: ",
+                        "Button type",
+                        JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        new Object[]{"Flat", "Custom"},
+                        "Flat");
+
+                if (option == 1) {
+                    JFileChooser fileChooser = new JFileChooser();
+                    fileChooser.setFileFilter(new FileNameExtensionFilter("jpg or png", "jpg", "jpeg", "png"));
+                    int path = fileChooser.showOpenDialog(null);
+
+                    if (path == JFileChooser.APPROVE_OPTION) {
+                        File fileResult = fileChooser.getSelectedFile();
+                        // write  fileResult.getAbsolutePath());
+                    }
+                } else if (option == 0) {
+                    // yes
+                }
+                break;
+        }
     }
 }

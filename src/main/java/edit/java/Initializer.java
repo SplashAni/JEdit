@@ -1,15 +1,12 @@
 package edit.java;
 
 
-import edit.java.Utils.Utils;
 import edit.java.Utils.Visuals;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Initializer extends JFrame implements MouseListener { // guis will be done in 1 thread (doesnt take much time)
@@ -42,13 +39,13 @@ public class Initializer extends JFrame implements MouseListener { // guis will 
         button2.setForeground(Color.black);
 
         buttonManager.setLayout(new FlowLayout());
-        buttonManager.setBackground(Visuals.Background);
+        buttonManager.setBackground(Visuals.background);
         buttonManager.add(button1);
         buttonManager.add(button2);
 
         setSize(750, 550);
         add(buttonManager, BorderLayout.SOUTH);
-        getContentPane().setBackground(Visuals.Background);
+        getContentPane().setBackground(Visuals.background);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }

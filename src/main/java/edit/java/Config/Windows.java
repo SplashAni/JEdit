@@ -12,7 +12,7 @@ public class Windows {
 
     public static void loader() {
         JFrame l = new JFrame("Edit Window");
-        l.getContentPane().setBackground(Visuals.Background);
+        l.getContentPane().setBackground(Visuals.background);
         l.setCursor(new Cursor(Cursor.HAND_CURSOR));
         l.setSize(600, 400);
         l.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -27,7 +27,7 @@ public class Windows {
 
         JPanel textPanel = new JPanel(new GridLayout(4, 2));
         textPanel.setPreferredSize(new Dimension(500, 200));
-        textPanel.setBackground(Visuals.Background);
+        textPanel.setBackground(Visuals.background);
         textPanel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createEmptyBorder(10, 10, 10, 10),
                 BorderFactory.createEmptyBorder()));
@@ -37,8 +37,8 @@ public class Windows {
         JButton[] bs = new JButton[4];
 
 
-        String[] titles = {"Background", "Text", "Size", "Flat"};
-        String[] options = {"Default [Gray]", "Default [Light Gray]", "Default [+ / - 0]", "Default [F]"};
+        String[] titles = {"Background", "Border", "Size", "Button"};
+        String[] options = {"Default [Gray]","Default [Purple]", "Default [+ / - 0]", "Default [Icon.png]"};
 
         for (int i = 0; i < 4; i++) {
             ls[i] = new JLabel(titles[i]);
@@ -53,10 +53,10 @@ public class Windows {
             textPanel.add(ls[i]);
             textPanel.add(bs[i]);
         }
-        bs[0].addActionListener(e -> System.out.println("1"));
-        bs[1].addActionListener(e -> System.out.println("2"));
-        bs[2].addActionListener(e -> System.out.println("3"));
-        bs[3].addActionListener(e -> System.out.println("4"));
+        bs[0].addActionListener(e -> Visuals.loaderGui(1));
+        bs[1].addActionListener(e -> Visuals.loaderGui(2));
+        bs[2].addActionListener(e -> Visuals.loaderGui(3));
+        bs[3].addActionListener(e -> Visuals.loaderGui(4));
 
 
         l.add(textPanel, BorderLayout.CENTER);
