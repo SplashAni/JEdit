@@ -4,7 +4,7 @@ import edit.java.Utils.Visuals;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
+
 
 public class Windows {
 
@@ -53,6 +53,11 @@ public class Windows {
             textPanel.add(ls[i]);
             textPanel.add(bs[i]);
         }
+        bs[0].addActionListener(e -> System.out.println("1"));
+        bs[1].addActionListener(e -> System.out.println("2"));
+        bs[2].addActionListener(e -> System.out.println("3"));
+        bs[3].addActionListener(e -> System.out.println("4"));
+
 
         l.add(textPanel, BorderLayout.CENTER);
 
