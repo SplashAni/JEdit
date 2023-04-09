@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
+import static edit.java.Utils.Visuals.background;
+
 
 public class Windows {
 
@@ -15,7 +17,7 @@ public class Windows {
     public static void loader() {
         FileUtils.init(1);
         JFrame l = new JFrame("Edit Window");
-        l.getContentPane().setBackground(Visuals.background);
+        l.getContentPane().setBackground(background());
         l.setCursor(new Cursor(Cursor.HAND_CURSOR));
         l.setSize(600, 400);
         l.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -30,7 +32,7 @@ public class Windows {
 
         JPanel textPanel = new JPanel(new GridLayout(4, 2));
         textPanel.setPreferredSize(new Dimension(500, 200));
-        textPanel.setBackground(Visuals.background);
+        textPanel.setBackground(background());
         textPanel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createEmptyBorder(10, 10, 10, 10),
                 BorderFactory.createEmptyBorder()));
