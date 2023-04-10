@@ -61,8 +61,8 @@ public class Utils {
 
     public static String i() {
         Color background = background();
-        String colorStr = background.equals(new Color(238, 238, 238)) ? "Gray" : String.format("%d,%d,%d", background.getRed(), background.getGreen(), background.getBlue());
-        return String.format("%s [%s]", background.equals(new Color(238, 238, 238)) ? "Default" : "Custom", colorStr);
+        String colorStr = background.equals(new Color(65,61,61)) ? "Gray" : String.format("%d,%d,%d", background.getRed(), background.getGreen(), background.getBlue());
+        return String.format("%s [%s]", background.equals(new Color(65,61,61)) ? "Default" : "Custom", colorStr);
     }
 
     public static String i1() {
@@ -78,6 +78,6 @@ public class Utils {
 
     public static String i3() throws IOException {
         JButton button = Visuals.settingButton();
-        return String.format("%s [%s]", button.isOpaque() ? "Default" : "Custom", button.isOpaque() ? "Icon" : "Flat");
+        return String.format("%s [%s]", button.isOpaque() ? "Custom" : "Default", button.isOpaque() ? "Flat" : "Icon");
     }
 }

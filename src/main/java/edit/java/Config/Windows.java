@@ -74,7 +74,7 @@ public class Windows {
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.setBackground(background());
 
-        JButton cancel = Visuals.defaultButton("Cancel");
+        JButton cancel = Visuals.defaultButton("Default");
 
         cancel.addActionListener(e -> {
             l.dispose();

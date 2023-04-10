@@ -118,6 +118,7 @@ public class Visuals {
                     String b = String.format("%d,%d,%d", border.getRed(), border.getGreen(), border.getBlue());
                     write(1, "border.cfg", b);
                 }
+                break;
             case 3:
                 Integer[] range = new Integer[16];
                 for (int i = 0; i < 16; i++) {
