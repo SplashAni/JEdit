@@ -18,20 +18,22 @@ import static edit.java.Utils.Visuals.settingButton;
 public class Initializer extends JFrame implements MouseListener { // guis will be done in 1 thread (doesnt take much time)
 
     private static JLabel heading;
+    JLabel imgRenderer;
 
     public Initializer() throws IOException {
         super("Insert image");
 
         JPanel buttonManager = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
-        JLabel imgRenderer = new JLabel();
+        imgRenderer = new JLabel();
         imgRenderer.addMouseListener(this);
         heading = new JLabel("Click below to add image:", SwingConstants.CENTER);
 
 
         imgRenderer.setPreferredSize(new Dimension(600, 450));
-        Utils.setDroppable(imgRenderer);
-        imgRenderer.setBorder(Visuals.border(3));
 
+        Utils.setDroppable(imgRenderer);
+
+        imgRenderer.setBorder(Visuals.border(3));
         add(imgRenderer, BorderLayout.CENTER);
 
         heading.setForeground(Color.WHITE);
@@ -70,7 +72,9 @@ public class Initializer extends JFrame implements MouseListener { // guis will 
 
     @Override
     public void mousePressed(MouseEvent e) {
-        System.out.println(pathChooser());
+        if(imgRenderer.getIcon() == null){
+            pathChooser(imgRenderer);
+        }
     }
 
     @Override

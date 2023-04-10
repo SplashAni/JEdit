@@ -83,6 +83,18 @@ public class Utils {
         JButton button = Visuals.settingButton();
         return String.format("%s [%s]", button.isOpaque() ? "Custom" : "Default", button.isOpaque() ? "Flat" : "Icon");
     }
+    public static void setupResizing(JLabel label, ImageIcon image) {
+        label.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                SwingUtilities.invokeLater(() -> {
+                    Image scaledImage = image.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
+                    label.setIcon(new ImageIcon(scaledImage));
+                });
+            }
+        });
+    }
+
 
     public static void setDroppable(JLabel label) {
         label.setTransferHandler(new TransferHandler() {
@@ -105,15 +117,7 @@ public class Utils {
                             Image scaledImage = image.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
                             label.setIcon(new ImageIcon(scaledImage));
 
-                            label.addComponentListener(new ComponentAdapter() {
-                                @Override
-                                public void componentResized(ComponentEvent e) {
-                                    SwingUtilities.invokeLater(() -> { // THIS MAKES RESIZING FASTER THAN THE SPEED OF LIGHT
-                                        Image scaledImage = image.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
-                                        label.setIcon(new ImageIcon(scaledImage));
-                                    });
-                                }
-                            });
+                            setupResizing(label, new ImageIcon(scaledImage));
 
                         } else {
                             JOptionPane.showMessageDialog(null, "Only png and jpg files are supported!");

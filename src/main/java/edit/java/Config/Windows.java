@@ -11,6 +11,7 @@ import java.awt.*;
 import java.io.IOException;
 
 import static edit.java.Utils.FileUtils.write;
+import static edit.java.Utils.Utils.setupResizing;
 import static edit.java.Utils.Visuals.background;
 
 
@@ -161,13 +162,13 @@ public class Windows {
                 break;
         }
     }
-    public static String pathChooser() {
+    public static String pathChooser(JLabel setThis) {
         JFileChooser fileChooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("png and jpg", "png", "jpeg", "jpg");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("png / jpeg", "png", "jpeg", "jpg");
         fileChooser.setFileFilter(filter);
         int returnVal = fileChooser.showOpenDialog(null);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            return fileChooser.getSelectedFile().getAbsolutePath();
+            setupResizing(setThis,new ImageIcon(fileChooser.getSelectedFile().getAbsolutePath()));
         }
         return null;
     }
