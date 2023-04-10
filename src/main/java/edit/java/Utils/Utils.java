@@ -3,6 +3,9 @@ package edit.java.Utils;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -61,8 +64,8 @@ public class Utils {
 
     public static String i() {
         Color background = background();
-        String colorStr = background.equals(new Color(65,61,61)) ? "Gray" : String.format("%d,%d,%d", background.getRed(), background.getGreen(), background.getBlue());
-        return String.format("%s [%s]", background.equals(new Color(65,61,61)) ? "Default" : "Custom", colorStr);
+        String colorStr = background.equals(new Color(65, 61, 61)) ? "Gray" : String.format("%d,%d,%d", background.getRed(), background.getGreen(), background.getBlue());
+        return String.format("%s [%s]", background.equals(new Color(65, 61, 61)) ? "Default" : "Custom", colorStr);
     }
 
     public static String i1() {
@@ -79,5 +82,49 @@ public class Utils {
     public static String i3() throws IOException {
         JButton button = Visuals.settingButton();
         return String.format("%s [%s]", button.isOpaque() ? "Custom" : "Default", button.isOpaque() ? "Flat" : "Icon");
+    }
+
+    public static void setDroppable(JLabel label) {
+        label.setTransferHandler(new TransferHandler() {
+            @Override
+            public boolean canImport(TransferHandler.TransferSupport support) {
+                return support.isDataFlavorSupported(DataFlavor.javaFileListFlavor);
+            }
+
+            @Override
+            public boolean importData(TransferHandler.TransferSupport support) {
+                if (!canImport(support)) {
+                    return false;
+                }
+                try {
+                    java.util.List<File> files = (java.util.List<File>) support.getTransferable()
+                            .getTransferData(DataFlavor.javaFileListFlavor);
+                    for (File file : files) {
+                        if (file.getName().endsWith(".png") || file.getName().endsWith(".jpg") || file.getName().endsWith(".jpeg")) {
+                            ImageIcon image = new ImageIcon(file.getAbsolutePath());
+                            Image scaledImage = image.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
+                            label.setIcon(new ImageIcon(scaledImage));
+
+                            label.addComponentListener(new ComponentAdapter() {
+                                @Override
+                                public void componentResized(ComponentEvent e) {
+                                    SwingUtilities.invokeLater(() -> { // THIS MAKES RESIZING FASTER THAN THE SPEED OF LIGHT
+                                        Image scaledImage = image.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
+                                        label.setIcon(new ImageIcon(scaledImage));
+                                    });
+                                }
+                            });
+
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Only png and jpg files are supported!");
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return false;
+                }
+                return true;
+            }
+        });
     }
 }

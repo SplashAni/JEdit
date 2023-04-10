@@ -2,6 +2,7 @@ package edit.java;
 
 
 import edit.java.Config.Windows;
+import edit.java.Utils.Utils;
 import edit.java.Utils.Visuals;
 
 import javax.swing.*;
@@ -27,6 +28,7 @@ public class Initializer extends JFrame implements MouseListener { // guis will 
 
 
         imgRenderer.setPreferredSize(new Dimension(600, 450));
+        Utils.setDroppable(imgRenderer);
         imgRenderer.setBorder(Visuals.border(3));
 
         add(imgRenderer, BorderLayout.CENTER);
@@ -62,7 +64,7 @@ public class Initializer extends JFrame implements MouseListener { // guis will 
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        
     }
 
     @Override
