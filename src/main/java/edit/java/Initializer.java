@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 
+import static edit.java.Config.Windows.pathChooser;
 import static edit.java.Utils.Visuals.background;
 import static edit.java.Utils.Visuals.settingButton;
 
@@ -64,12 +65,12 @@ public class Initializer extends JFrame implements MouseListener { // guis will 
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        
+        // zoom
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        System.out.println(pathChooser());
     }
 
     @Override

@@ -102,62 +102,6 @@ public class Visuals {
         button.setFocusPainted(false);
         return button;
     }
-    public static void loaderGui(int state) throws IOException {
-        switch (state) {
-            case 1:
-                Color bg = JColorChooser.showDialog(null, "Choose a background color", new Color(65, 61, 61));
-                if (bg != null) {
-                    String background = String.format("%d,%d,%d", bg.getRed(), bg.getGreen(), bg.getBlue());
-                    write(1, "bg.cfg", background);
-                    l.repaint();
-                }
-                break;
-            case 2:
-                Color border = JColorChooser.showDialog(null, "Choose a background color", new Color(238, 130, 238));
-                if (border != null) {
-                    String b = String.format("%d,%d,%d", border.getRed(), border.getGreen(), border.getBlue());
-                    write(1, "border.cfg", b);
-                }
-                break;
-            case 3:
-                Integer[] range = new Integer[16];
-                for (int i = 0; i < 16; i++) {
-                    range[i] = i + 1;
-                }
-                JComboBox<Integer> comboBox = new JComboBox<>(range);
-                comboBox.setSelectedItem(12);
-                int result = JOptionPane.showOptionDialog(null,
-                        comboBox,
-                        "Font size",
-                        JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.PLAIN_MESSAGE,
-                        null,
-                        new String[]{"Enter", "Cancel"},
-                        "Enter");
-                if (result == JOptionPane.OK_OPTION) {
-                    int value = (int) comboBox.getSelectedItem();
-                    write(1, "size.cfg", String.valueOf(value));
-                }
-                break;
-            case 4:
-                int option = JOptionPane.showOptionDialog(
-                        null,
-                        "Choose a type:",
-                        "Button type",
-                        JOptionPane.DEFAULT_OPTION,
-                        JOptionPane.PLAIN_MESSAGE,
-                        null,
-                        new Object[]{"Flat", "Default"},
-                        "Flat");
-
-                if (option == 0) {
-                    write(1, "button.cfg", "Flat");
-                } else if (option == 1) {
-                    write(1,"button.cfg","Default");
-                }
-                break;
-        }
-    }
             public static JButton settingButton() throws IOException {
         String buttonConfig = read(1, "button.cfg");
 
