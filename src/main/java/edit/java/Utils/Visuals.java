@@ -127,7 +127,7 @@ public class Visuals {
             return button;
         }
     }
-    private static JLabel renderLabel(String text) {
+    public static JLabel renderLabel(String text) {
         JLabel label = new JLabel(text);
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setVerticalAlignment(SwingConstants.CENTER);

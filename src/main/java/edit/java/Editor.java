@@ -1,16 +1,21 @@
 package edit.java;
 
+import edit.java.Utils.Utils;
 import edit.java.Utils.Visuals;
 
 import javax.swing.*;
 import java.awt.*;
 
+import static edit.java.Utils.Utils.winSize;
 import static edit.java.Utils.Visuals.border;
+import static edit.java.Utils.Visuals.renderLabel;
 
-public class Editor extends JFrame {
-
+public class Editor  {
+    int x1;
+    int y1;
     public Editor(String icon) {
-        setTitle("Editor");
+        JFrame f = new JFrame(); // done cuz window sizes dont work if extended ):
+        f.setTitle("Editor");
 
         JMenuBar m = new JMenuBar();
         JMenu file = new JMenu("File");
@@ -22,7 +27,7 @@ public class Editor extends JFrame {
         m.add(paint);
         m.add(help);
 
-        setJMenuBar(m);
+        f.setJMenuBar(m);
 
         JPanel renderPanel = new JPanel(new BorderLayout());
 
@@ -30,11 +35,10 @@ public class Editor extends JFrame {
         bottomPanel.setBorder(border(1));
 
         JPanel xyPanel = new JPanel(new GridLayout(1, 4, 5, 0));
-        xyPanel.add(createLabel("X:"));
-        xyPanel.add(createLabel("Y:"));
+        xyPanel.add(renderLabel(winSize(f)));
         xyPanel.add(Box.createHorizontalStrut(10));
-        xyPanel.add(createLabel("X:"));
-        xyPanel.add(createLabel("Y:"));
+        xyPanel.add(renderLabel("X:"+x1));
+        xyPanel.add(renderLabel("Y:"+y1));
         bottomPanel.add(xyPanel, BorderLayout.LINE_START);
 
         JSeparator separator = new JSeparator(JSeparator.VERTICAL);
@@ -52,15 +56,8 @@ public class Editor extends JFrame {
         l.setIcon(new ImageIcon(icon));
         renderPanel.add(l, BorderLayout.CENTER);
 
-        setContentPane(renderPanel);
-        setSize(650, 500);
-        setVisible(true);
-    }
-
-    private static JLabel createLabel(String text) {
-        JLabel label = new JLabel(text);
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        label.setVerticalAlignment(SwingConstants.CENTER);
-        return label;
+        f.setContentPane(renderPanel);
+        f.setSize(650, 500);
+        f.setVisible(true);
     }
 }

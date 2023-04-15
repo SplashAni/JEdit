@@ -133,4 +133,9 @@ public class Utils {
             }
         });
     }
+    public static String winSize(JFrame frame) {
+        int width = frame.getWidth();
+        int height = frame.getHeight();
+        return width + "x" + height;
+    }
 }
