@@ -23,19 +23,18 @@ public class Editor extends JFrame {
 
         JPanel contentPane = new JPanel(new BorderLayout());
 
-        JLabel t = new JLabel("drag this down ");
-        t.setHorizontalAlignment(SwingConstants.CENTER);
-        t.setBorder(new LineBorder(Color.gray, 2));
-        contentPane.add(t, BorderLayout.NORTH);
 
-        JLabel b = new JLabel("this is fine");
+        JLabel b = new JLabel("so smart ");
         b.setHorizontalAlignment(SwingConstants.CENTER);
         b.setBorder(new LineBorder(Color.gray, 2));
         contentPane.add(b, BorderLayout.SOUTH);
+
+        JLabel l = new JLabel("");
+        l.setBorder(new LineBorder(Color.gray, 2));
+        contentPane.add(l, BorderLayout.CENTER);
 
         setContentPane(contentPane);
         setSize(650, 500);
         setVisible(true);
     }
 }
-
