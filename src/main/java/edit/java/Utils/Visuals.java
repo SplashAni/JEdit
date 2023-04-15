@@ -2,17 +2,13 @@ package edit.java.Utils;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
-import static edit.java.Config.Windows.l;
 import static edit.java.Utils.FileUtils.read;
-import static edit.java.Utils.FileUtils.write;
 
 public class Visuals {
     public static int size() {
@@ -130,5 +126,11 @@ public class Visuals {
             });
             return button;
         }
+    }
+    private static JLabel renderLabel(String text) {
+        JLabel label = new JLabel(text);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setVerticalAlignment(SwingConstants.CENTER);
+        return label;
     }
 }

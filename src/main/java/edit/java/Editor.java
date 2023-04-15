@@ -1,8 +1,11 @@
 package edit.java;
 
+import edit.java.Utils.Visuals;
+
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
+
+import static edit.java.Utils.Visuals.border;
 
 public class Editor extends JFrame {
 
@@ -21,20 +24,43 @@ public class Editor extends JFrame {
 
         setJMenuBar(m);
 
-        JPanel contentPane = new JPanel(new BorderLayout());
+        JPanel renderPanel = new JPanel(new BorderLayout());
 
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.setBorder(border(1));
 
-        JLabel b = new JLabel("so smart ");
-        b.setHorizontalAlignment(SwingConstants.CENTER);
-        b.setBorder(new LineBorder(Color.gray, 2));
-        contentPane.add(b, BorderLayout.SOUTH);
+        JPanel xyPanel = new JPanel(new GridLayout(1, 4, 5, 0));
+        xyPanel.add(createLabel("X:"));
+        xyPanel.add(createLabel("Y:"));
+        xyPanel.add(Box.createHorizontalStrut(10));
+        xyPanel.add(createLabel("X:"));
+        xyPanel.add(createLabel("Y:"));
+        bottomPanel.add(xyPanel, BorderLayout.LINE_START);
 
-        JLabel l = new JLabel("");
-        l.setBorder(new LineBorder(Color.gray, 2));
-        contentPane.add(l, BorderLayout.CENTER);
+        JSeparator separator = new JSeparator(JSeparator.VERTICAL);
+        separator.setPreferredSize(new Dimension(5, 5));
+        bottomPanel.add(separator, BorderLayout.CENTER);
 
-        setContentPane(contentPane);
+        JSlider slider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
+        slider.setMajorTickSpacing(25);
+        bottomPanel.add(slider, BorderLayout.LINE_END);
+
+        renderPanel.add(bottomPanel, BorderLayout.SOUTH);
+
+        JLabel l = new JLabel();
+        l.setForeground(Visuals.background());
+        l.setIcon(new ImageIcon(icon));
+        renderPanel.add(l, BorderLayout.CENTER);
+
+        setContentPane(renderPanel);
         setSize(650, 500);
         setVisible(true);
+    }
+
+    private static JLabel createLabel(String text) {
+        JLabel label = new JLabel(text);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setVerticalAlignment(SwingConstants.CENTER);
+        return label;
     }
 }
