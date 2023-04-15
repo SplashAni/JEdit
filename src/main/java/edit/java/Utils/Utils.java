@@ -83,6 +83,7 @@ public class Utils {
         JButton button = Visuals.settingButton();
         return String.format("%s [%s]", button.isOpaque() ? "Custom" : "Default", button.isOpaque() ? "Flat" : "Icon");
     }
+
     public static void setupResizing(JLabel label, ImageIcon image) {
         label.addComponentListener(new ComponentAdapter() {
             @Override
@@ -116,6 +117,7 @@ public class Utils {
                             ImageIcon image = new ImageIcon(file.getAbsolutePath());
                             Image scaledImage = image.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
                             label.setIcon(new ImageIcon(scaledImage));
+                            System.out.println(image);
 
                             setupResizing(label, new ImageIcon(scaledImage));
 

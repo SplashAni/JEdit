@@ -1,41 +1,41 @@
 package edit.java;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 
-public class Editor {
+public class Editor extends JFrame {
 
-    public static JFrame frame;
+    public Editor(String icon) {
+        setTitle("Editor");
 
-    public Editor() {
-        frame = new JFrame("JEdit");
-        frame.setSize(650, 500);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        JMenuBar menuBar = new JMenuBar();
+        JMenuBar m = new JMenuBar();
         JMenu file = new JMenu("File");
         JMenu edit = new JMenu("Edit");
         JMenu paint = new JMenu("Paint");
         JMenu help = new JMenu("Help");
-        menuBar.add(file);
-        menuBar.add(edit);
-        menuBar.add(paint);
-        menuBar.add(help);
-        frame.setJMenuBar(menuBar);
+        m.add(file);
+        m.add(edit);
+        m.add(paint);
+        m.add(help);
 
-        JPanel mainPanel = new JPanel(new BorderLayout());
-        frame.add(mainPanel);
+        setJMenuBar(m);
 
-        JLabel rendering = new JLabel();
-        rendering.setHorizontalAlignment(SwingConstants.CENTER);
-        rendering.setVerticalAlignment(SwingConstants.CENTER);
-        mainPanel.add(rendering, BorderLayout.CENTER);
+        JPanel contentPane = new JPanel(new BorderLayout());
 
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JLabel bottomLabel = new JLabel("widhtxheight");
-        bottomPanel.add(bottomLabel);
-        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+        JLabel t = new JLabel("drag this down ");
+        t.setHorizontalAlignment(SwingConstants.CENTER);
+        t.setBorder(new LineBorder(Color.gray, 2));
+        contentPane.add(t, BorderLayout.NORTH);
 
-        frame.setVisible(true);
+        JLabel b = new JLabel("this is fine");
+        b.setHorizontalAlignment(SwingConstants.CENTER);
+        b.setBorder(new LineBorder(Color.gray, 2));
+        contentPane.add(b, BorderLayout.SOUTH);
+
+        setContentPane(contentPane);
+        setSize(650, 500);
+        setVisible(true);
     }
 }
+

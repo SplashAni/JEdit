@@ -11,6 +11,7 @@ import java.awt.*;
 import java.io.IOException;
 
 import static edit.java.Utils.FileUtils.write;
+import static edit.java.Utils.Utils.imgPath;
 import static edit.java.Utils.Utils.setupResizing;
 import static edit.java.Utils.Visuals.background;
 
@@ -20,7 +21,7 @@ public class Windows {
     public static JFrame l;
 
     public static void loader() throws IOException {
-        FileUtils.init(1);
+        FileUtils.init(1,false);
         l = new JFrame("Edit Window");
         l.getContentPane().setBackground(background());
         l.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -162,12 +163,13 @@ public class Windows {
                 break;
         }
     }
-    public static String pathChooser(JLabel setThis) {
+    public static String pathChooser(JLabel setThis) throws IOException {
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("png / jpeg", "png", "jpeg", "jpg");
         fileChooser.setFileFilter(filter);
         int returnVal = fileChooser.showOpenDialog(null);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
+            write(2,"img.temp",fileChooser.getSelectedFile().getAbsolutePath());
             setupResizing(setThis,new ImageIcon(fileChooser.getSelectedFile().getAbsolutePath()));
         }
         return null;

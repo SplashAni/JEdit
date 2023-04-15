@@ -6,26 +6,38 @@ import static edit.java.Utils.Utils.MainPath;
 import static java.io.File.separator;
 
 public class FileUtils {
-    private static File loaderConfig = new File(MainPath + separator + "Loader");
+    private static final File loaderConfig = new File(MainPath + separator + "Loader");
+    private static final File tempConfig = new File(MainPath + separator + "Temp");
 
-    public static void init(int stage) {
+
+    public static void init(int stage, boolean clear) {
 
         switch (stage) {
             case 1:
-                if (!loaderConfig.exists()) {
+                if (!loaderConfig.exists())
                     loaderConfig.mkdir();
-                }
                 break;
+            case 2:
+                if (!tempConfig.exists() && !clear)
+                    tempConfig.mkdir();
+                else if (clear) {
+                    tempConfig.delete();
+                    break;
+                }
         }
     }
 
     public static void write(int stage, String file, String content) throws IOException {
         FileWriter w = new FileWriter(loaderConfig + separator + file);
+        FileWriter w1 = new FileWriter(loaderConfig + separator + file);
         switch (stage) {
             case 1:
                 w.write(content);
                 w.close();
                 break;
+            case 2:
+                w1.write(content);
+                w1.close();
         }
     }
 
@@ -46,6 +58,21 @@ public class FileUtils {
                 }
                 reader.close();
                 return content.toString();
+            case 2:
+                File tempFile = new File(tempConfig + File.separator + file);
+                if (!tempFile.exists()) {
+                    return null;
+                }
+                FileReader tempReader = new FileReader(tempFile);
+                BufferedReader tempBufferedReader = new BufferedReader(tempReader);
+                StringBuilder tempContent = new StringBuilder();
+                String tempLine;
+                while ((tempLine = tempBufferedReader.readLine()) != null) {
+                    tempContent.append(tempLine);
+                    tempContent.append(System.lineSeparator());
+                }
+                tempReader.close();
+                return tempContent.toString();
             default:
                 return null;
         }

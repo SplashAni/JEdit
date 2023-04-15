@@ -9,9 +9,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static edit.java.Config.Windows.pathChooser;
+import static edit.java.Utils.FileUtils.read;
+import static edit.java.Utils.FileUtils.write;
 import static edit.java.Utils.Visuals.background;
 import static edit.java.Utils.Visuals.settingButton;
 
@@ -40,7 +45,21 @@ public class Initializer extends JFrame implements MouseListener { // guis will 
         heading.setFont(new Font("Helvetica", Font.BOLD, Visuals.size()));
         add(heading, BorderLayout.NORTH);
 
+
         JButton enter = Visuals.defaultButton("Enter");
+
+        enter.addActionListener(e -> {
+            if (imgRenderer.getIcon() != null) {
+                try {
+                    String z = read(2,"img.temp");
+                        this.dispose();
+                        new Editor(z);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+
 
         JButton setting = settingButton();
         setting.addActionListener(e -> {
@@ -73,7 +92,11 @@ public class Initializer extends JFrame implements MouseListener { // guis will 
     @Override
     public void mousePressed(MouseEvent e) {
         if(imgRenderer.getIcon() == null){
-            pathChooser(imgRenderer);
+            try {
+                pathChooser(imgRenderer);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 
