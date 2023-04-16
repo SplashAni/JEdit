@@ -121,6 +121,7 @@ public class Visuals {
 
                 @Override
                 public void mouseExited(MouseEvent e) {
+
                     button.setIcon(icon);
                 }
             });
