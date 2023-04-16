@@ -2,6 +2,8 @@ package edit.java.Utils;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
+import javax.swing.plaf.basic.BasicSliderUI;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -89,7 +91,8 @@ public class Visuals {
         button.setForeground(Color.black);
         return button;
     }
-    public static JButton defaultButton(String name){
+
+    public static JButton defaultButton(String name) {
         JButton button = new JButton(name);
         button.setForeground(Color.GRAY);
         button.setForeground(new Color(58, 54, 54));
@@ -98,7 +101,8 @@ public class Visuals {
         button.setFocusPainted(false);
         return button;
     }
-            public static JButton settingButton() throws IOException {
+
+    public static JButton settingButton() throws IOException {
         String buttonConfig = read(1, "button.cfg");
 
         if (buttonConfig != null && buttonConfig.contains("Flat")) {
@@ -128,10 +132,17 @@ public class Visuals {
             return button;
         }
     }
+
     public static JLabel renderLabel(String text) {
         JLabel label = new JLabel(text);
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setVerticalAlignment(SwingConstants.CENTER);
         return label;
+    }
+
+    public static MatteBorder nonTop(int stage) {
+        if (stage == 1) {
+            return BorderFactory.createMatteBorder(0, 2, 0, 2, border(1).getLineColor());
+        } else return BorderFactory.createMatteBorder(0, 0, 2, 0, border(1).getLineColor());
     }
 }
