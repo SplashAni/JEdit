@@ -41,7 +41,7 @@ public class Initializer extends JFrame implements MouseListener { // guis will 
         imgRenderer.setBorder(Visuals.border(3));
         add(imgRenderer, BorderLayout.CENTER);
 
-        heading.setForeground(Color.WHITE);
+            heading.setForeground(Color.WHITE);
         heading.setFont(new Font("Helvetica", Font.BOLD, Visuals.size()));
         add(heading, BorderLayout.NORTH);
 

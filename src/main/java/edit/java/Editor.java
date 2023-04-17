@@ -1,10 +1,8 @@
 package edit.java;
 
-import edit.java.Utils.Utils;
 import edit.java.Utils.Visuals;
 
 import javax.swing.*;
-import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -13,31 +11,48 @@ import static edit.java.Utils.Utils.winSize;
 import static edit.java.Utils.Visuals.*;
 
 public class Editor extends JFrame {
+    boolean border = true; // will be an option soon
 
     public Editor(String icon) {
         super("JEdit " + Main.VERSION);
         setSize(850, 600);
 
         JMenuBar m = new JMenuBar();
+        m.setBackground(background());
+
+        m.setBorder(borderLayout(2,border));
         JMenu file = new JMenu("File");
         JMenu edit = new JMenu("Edit");
         JMenu paint = new JMenu("Paint");
-        JMenu help = new JMenu("Help");
+        JMenu window = new JMenu("Window");
+
+        JMenuItem save = new JMenuItem("Save");
+        JMenuItem saveAs = new JMenuItem("Save As");
+        JMenuItem properties = new JMenuItem("Properties");
+        JMenuItem exit = new JMenuItem("Exit");
+
+        file.add(save);
+        file.add(saveAs);
+        file.add(properties);
+        file.add(exit);
+
         m.add(file);
         m.add(edit);
         m.add(paint);
-        m.add(help);
+        m.add(window);
 
         setJMenuBar(m);
+        styleMenus(m);
+
 
         JPanel renderPanel = new JPanel(new BorderLayout());
 
         JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.setBorder(nonTop(0));
+        bottomPanel.setBorder(borderLayout(0,border));
         bottomPanel.setBackground(Visuals.background());
         JPanel xyPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
         xyPanel.setBackground(Visuals.background());
-        xyPanel.setBorder(nonTop(1));
+        xyPanel.setBorder(borderLayout(1, border));
         JLabel sizeLabel = renderLabel(winSize(this));
         sizeLabel.setForeground(Color.LIGHT_GRAY);
         xyPanel.add(sizeLabel);
@@ -54,7 +69,7 @@ public class Editor extends JFrame {
 
         JSlider slider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
         slider.setBackground(Color.lightGray);
-        slider.setBorder(nonTop(1));
+        slider.setBorder(borderLayout(1, border));
         slider.setMajorTickSpacing(25);
         slider.setBackground(Visuals.background());
         bottomPanel.add(slider, BorderLayout.LINE_END);

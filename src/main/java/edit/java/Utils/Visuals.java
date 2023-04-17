@@ -3,7 +3,6 @@ package edit.java.Utils;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
-import javax.swing.plaf.basic.BasicSliderUI;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -11,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import static edit.java.Utils.FileUtils.read;
+import static java.awt.Color.lightGray;
 
 public class Visuals {
     public static int size() {
@@ -106,9 +106,8 @@ public class Visuals {
         String buttonConfig = read(1, "button.cfg");
 
         if (buttonConfig != null && buttonConfig.contains("Flat")) {
-            JButton button = defaultButton("Settings");
 
-            return button;
+            return defaultButton("Settings");
         } else {
             ImageIcon icon = Visuals.transparentIcon("setting.png", 25, 25);
             JButton button = Visuals.transparentButton(icon);
@@ -140,9 +139,49 @@ public class Visuals {
         return label;
     }
 
-    public static MatteBorder nonTop(int stage) {
-        if (stage == 1) {
-            return BorderFactory.createMatteBorder(0, 2, 0, 2, border(1).getLineColor());
-        } else return BorderFactory.createMatteBorder(0, 0, 2, 0, border(1).getLineColor());
+    public static MatteBorder borderLayout(int stage, boolean shown) {
+        Color c = border(1).getLineColor();
+        if (shown) {
+            return switch (stage) {
+                case 1 -> BorderFactory.createMatteBorder(0, 2, 0, 2, c);
+                case 2 -> BorderFactory.createMatteBorder(2, 2, 0, 2, c);
+                default -> BorderFactory.createMatteBorder(0, 0, 2, 2, c);
+            };
+        } else {
+            return BorderFactory.createMatteBorder(0, 0, 0, 0, c);
+        }
+    }
+
+    public static void styleMenus(JMenuBar menuBar) {
+        int numMenus = menuBar.getMenuCount();
+
+        JMenu[] menus = new JMenu[numMenus];
+
+        for (int i = 0; i < numMenus; i++) {
+            menus[i] = menuBar.getMenu(i);
+        }
+
+        for (JMenu menu : menus) {
+            menu.setForeground(lightGray);
+        }
+    }
+
+    public static void styleMenuItems(JMenu menu) {
+        int numItems = menu.getItemCount();
+
+        JMenuItem[] menuItems = new JMenuItem[numItems];
+
+        for (int i = 0; i < numItems; i++) {
+            menuItems[i] = menu.getItem(i);
+        }
+
+        for (JMenuItem menuItem : menuItems) {
+            menuItem.setForeground(lightGray);
+            menuItem.setBackground(background());
+
+            if (menuItem instanceof JMenu) {
+                styleMenuItems((JMenu) menuItem);
+            }
+        }
     }
 }
