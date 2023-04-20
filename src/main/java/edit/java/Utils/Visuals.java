@@ -155,32 +155,20 @@ public class Visuals {
     public static void styleMenus(JMenuBar menuBar) {
         int numMenus = menuBar.getMenuCount();
 
-        JMenu[] menus = new JMenu[numMenus];
-
         for (int i = 0; i < numMenus; i++) {
-            menus[i] = menuBar.getMenu(i);
-        }
+            JMenu menu = menuBar.getMenu(i);
+            menu.setForeground(Color.LIGHT_GRAY);
 
-        for (JMenu menu : menus) {
-            menu.setForeground(lightGray);
-        }
-    }
+            int numItems = menu.getItemCount();
+            JMenuItem[] items = new JMenuItem[numItems];
 
-    public static void styleMenuItems(JMenu menu) {
-        int numItems = menu.getItemCount();
+            for (int j = 0; j < numItems; j++) {
+                items[j] = menu.getItem(j);
+            }
 
-        JMenuItem[] menuItems = new JMenuItem[numItems];
-
-        for (int i = 0; i < numItems; i++) {
-            menuItems[i] = menu.getItem(i);
-        }
-
-        for (JMenuItem menuItem : menuItems) {
-            menuItem.setForeground(lightGray);
-            menuItem.setBackground(background());
-
-            if (menuItem instanceof JMenu) {
-                styleMenuItems((JMenu) menuItem);
+            for (JMenuItem item : items) {
+                item.setBackground(background());
+                item.setForeground(lightGray);
             }
         }
     }

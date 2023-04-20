@@ -6,17 +6,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.IOException;
 
+import static edit.java.Utils.Utils.readImage;
 import static edit.java.Utils.Utils.winSize;
 import static edit.java.Utils.Visuals.*;
 
 public class Editor extends JFrame {
     boolean border = true; // will be an option soon
 
-    public Editor(String icon) {
+    public Editor(String icon){
         super("JEdit " + Main.VERSION);
         setSize(850, 600);
-
+        icon = String.valueOf(readImage))
         JMenuBar m = new JMenuBar();
         m.setBackground(background());
 
@@ -30,6 +32,7 @@ public class Editor extends JFrame {
         JMenuItem saveAs = new JMenuItem("Save As");
         JMenuItem properties = new JMenuItem("Properties");
         JMenuItem exit = new JMenuItem("Exit");
+
 
         file.add(save);
         file.add(saveAs);
@@ -93,7 +96,6 @@ public class Editor extends JFrame {
                 sizeLabel.setText(winSize(Editor.this));
             }
         });
-
         setVisible(true);
     }
 }

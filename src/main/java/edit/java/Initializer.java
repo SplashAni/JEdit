@@ -9,14 +9,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import static edit.java.Config.Windows.pathChooser;
 import static edit.java.Utils.FileUtils.read;
-import static edit.java.Utils.FileUtils.write;
 import static edit.java.Utils.Visuals.background;
 import static edit.java.Utils.Visuals.settingButton;
 
@@ -41,7 +37,7 @@ public class Initializer extends JFrame implements MouseListener { // guis will 
         imgRenderer.setBorder(Visuals.border(3));
         add(imgRenderer, BorderLayout.CENTER);
 
-            heading.setForeground(Color.WHITE);
+        heading.setForeground(Color.WHITE);
         heading.setFont(new Font("Helvetica", Font.BOLD, Visuals.size()));
         add(heading, BorderLayout.NORTH);
 
