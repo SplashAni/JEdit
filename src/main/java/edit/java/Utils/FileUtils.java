@@ -1,13 +1,15 @@
 package edit.java.Utils;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import static edit.java.Utils.Utils.MainPath;
 import static java.io.File.separator;
 
 public class FileUtils {
     private static final File loaderConfig = new File(MainPath + separator + "Loader");
-    private static final File tempConfig = new File(MainPath + separator + "Temp");
+    public static final File tempConfig = new File(MainPath + separator + "Temp");
 
 
     public static void init(int stage, boolean clear) {
@@ -27,18 +29,18 @@ public class FileUtils {
         }
     }
 
-    public static void write(int stage, String file, String content) throws IOException {
-        FileWriter w = new FileWriter(loaderConfig + separator + file);
-        FileWriter w1 = new FileWriter(loaderConfig + separator + file);
+    public static void write(int stage, String p, String content) throws IOException {
+        FileWriter w = null;
         switch (stage) {
             case 1:
-                w.write(content);
-                w.close();
+                w = new FileWriter(loaderConfig + separator + p);
                 break;
             case 2:
-                w1.write(content);
-                w1.close();
+                w = new FileWriter(tempConfig + separator + p);
+                break;
         }
+        w.write(content);
+        w.close();
     }
 
     public static String read(int stage, String file) throws IOException {
@@ -76,5 +78,15 @@ public class FileUtils {
             default:
                 return null;
         }
+    }
+    public static String x() throws IOException { // this only works oh well
+        String content = "";
+        try {
+
+            content = new String(Files.readAllBytes(Paths.get(System.getProperty("user.home") + separator + "JEdit\\Temp\\img.tmp"))); // for some reason it doesnt work with stages
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return content;
     }
 }

@@ -109,22 +109,22 @@ public class Windows {
     }
     public static void loaderGui(int state) throws IOException { // this is actually an window :nerd:
         switch (state) {
-            case 1:
+            case 1 -> {
                 Color bg = JColorChooser.showDialog(null, "Choose a background color", new Color(65, 61, 61));
                 if (bg != null) {
                     String background = String.format("%d,%d,%d", bg.getRed(), bg.getGreen(), bg.getBlue());
                     write(1, "bg.cfg", background);
                     l.repaint();
                 }
-                break;
-            case 2:
+            }
+            case 2 -> {
                 Color border = JColorChooser.showDialog(null, "Choose a background color", new Color(238, 130, 238));
                 if (border != null) {
                     String b = String.format("%d,%d,%d", border.getRed(), border.getGreen(), border.getBlue());
                     write(1, "border.cfg", b);
                 }
-                break;
-            case 3:
+            }
+            case 3 -> {
                 Integer[] range = new Integer[16];
                 for (int i = 0; i < 16; i++) {
                     range[i] = i + 1;
@@ -143,8 +143,8 @@ public class Windows {
                     int value = (int) comboBox.getSelectedItem();
                     write(1, "size.cfg", String.valueOf(value));
                 }
-                break;
-            case 4:
+            }
+            case 4 -> {
                 int option = JOptionPane.showOptionDialog(
                         null,
                         "Choose a type:",
@@ -154,13 +154,12 @@ public class Windows {
                         null,
                         new Object[]{"Flat", "Default"},
                         "Flat");
-
                 if (option == 0) {
                     write(1, "button.cfg", "Flat");
                 } else if (option == 1) {
-                    write(1,"button.cfg","Default");
+                    write(1, "button.cfg", "Default");
                 }
-                break;
+            }
         }
     }
     public static String pathChooser(JLabel setThis) throws IOException {

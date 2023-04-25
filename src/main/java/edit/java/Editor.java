@@ -8,19 +8,30 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
 
-import static edit.java.Utils.Utils.readImage;
+import static edit.java.Utils.FileUtils.x;
 import static edit.java.Utils.Utils.winSize;
 import static edit.java.Utils.Visuals.*;
 
 public class Editor extends JFrame {
     boolean border = true; // will be an option soon
 
-    public Editor(String icon){
+    public Editor(String icon) throws IOException {
         super("JEdit " + Main.VERSION);
         setSize(850, 600);
-        icon = String.valueOf(readImage))
         JMenuBar m = new JMenuBar();
         m.setBackground(background());
+        JPanel renderPanel = new JPanel(new BorderLayout());
+
+        JLabel l = new JLabel();
+        l.setIcon(new ImageIcon(x()));
+
+        l.setBorder(border(2));
+        l.setForeground(Visuals.background());
+        renderPanel.add(l, BorderLayout.CENTER);
+
+        setLocationRelativeTo(null);
+        setContentPane(renderPanel);
+
 
         m.setBorder(borderLayout(2,border));
         JMenu file = new JMenu("File");
@@ -48,7 +59,6 @@ public class Editor extends JFrame {
         styleMenus(m);
 
 
-        JPanel renderPanel = new JPanel(new BorderLayout());
 
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setBorder(borderLayout(0,border));
@@ -80,14 +90,6 @@ public class Editor extends JFrame {
         renderPanel.add(bottomPanel, BorderLayout.SOUTH);
         renderPanel.setBackground(Visuals.background());
 
-        JLabel l = new JLabel();
-        l.setBorder(border(2));
-        l.setForeground(Visuals.background());
-        l.setIcon(new ImageIcon(icon));
-        renderPanel.add(l, BorderLayout.CENTER);
-
-        setLocationRelativeTo(null);
-        setContentPane(renderPanel);
 
         addComponentListener(new ComponentAdapter() {
             @Override

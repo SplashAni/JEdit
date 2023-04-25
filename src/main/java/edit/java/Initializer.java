@@ -2,6 +2,7 @@ package edit.java;
 
 
 import edit.java.Config.Windows;
+import edit.java.Utils.FileUtils;
 import edit.java.Utils.Utils;
 import edit.java.Utils.Visuals;
 
@@ -23,6 +24,7 @@ public class Initializer extends JFrame implements MouseListener { // guis will 
 
     public Initializer() throws IOException {
         super("Insert image");
+        FileUtils.init(2,false);
 
         JPanel buttonManager = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         imgRenderer = new JLabel();
@@ -47,9 +49,8 @@ public class Initializer extends JFrame implements MouseListener { // guis will 
         enter.addActionListener(e -> {
             if (imgRenderer.getIcon() != null) {
                 try {
-                    String z = read(2,"img.temp");
                         this.dispose();
-                        new Editor(z);
+                        new Editor(read(2,"img.tmp"));
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }

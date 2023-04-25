@@ -8,7 +8,10 @@ import java.awt.event.*;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
+import static edit.java.Utils.FileUtils.write;
 import static edit.java.Utils.Visuals.*;
 import static java.io.File.separator;
 
@@ -60,7 +63,6 @@ public class Utils {
         File file = new File(MainPath + separator + "Images" + separator + name);
         return ImageIO.read(file);
     }
-
     public static String i() {
         Color background = background();
         String colorStr = background.equals(new Color(65, 61, 61)) ? "Gray" : String.format("%d,%d,%d", background.getRed(), background.getGreen(), background.getBlue());
@@ -116,8 +118,7 @@ public class Utils {
                             ImageIcon image = new ImageIcon(file.getAbsolutePath());
                             Image scaledImage = image.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
                             label.setIcon(new ImageIcon(scaledImage));
-                            System.out.println(image);
-
+                            write(2,"img.tmp", String.valueOf(image));
                             setupResizing(label, new ImageIcon(scaledImage));
 
                         } else {
