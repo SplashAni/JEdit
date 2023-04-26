@@ -79,7 +79,7 @@ public class FileUtils {
                 return null;
         }
     }
-    public static String x() throws IOException { // this only works oh well
+    public static String x() { // this only works oh well
         String content = "";
         try {
 

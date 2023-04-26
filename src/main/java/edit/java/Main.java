@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         //Config.init();
         //new Initializer();
-      new Editor(x());
+      new Editor();
     }
 
 }

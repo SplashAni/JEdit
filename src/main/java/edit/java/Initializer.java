@@ -50,7 +50,7 @@ public class Initializer extends JFrame implements MouseListener { // guis will 
             if (imgRenderer.getIcon() != null) {
                 try {
                         this.dispose();
-                        new Editor(read(2,"img.tmp"));
+                        new Editor();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }

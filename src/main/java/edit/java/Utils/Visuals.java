@@ -172,4 +172,19 @@ public class Visuals {
             }
         }
     }
+    public static void setPos(JLabel i, String p) {
+        switch(p.toLowerCase()) {
+            case "left":
+                i.setHorizontalAlignment(JLabel.LEFT);
+                break;
+            case "right":
+                i.setHorizontalAlignment(JLabel.RIGHT);
+                break;
+            case "center":
+            default:
+                i.setHorizontalAlignment(JLabel.CENTER);
+                break;
+        }
+        i.setVerticalAlignment(JLabel.CENTER);
+    }
 }

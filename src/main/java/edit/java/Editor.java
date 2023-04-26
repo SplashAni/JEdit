@@ -1,5 +1,6 @@
 package edit.java;
 
+import edit.java.Utils.MenuUtils;
 import edit.java.Utils.Visuals;
 
 import javax.swing.*;
@@ -15,7 +16,7 @@ import static edit.java.Utils.Visuals.*;
 public class Editor extends JFrame {
     boolean border = true; // will be an option soon
 
-    public Editor(String icon) throws IOException {
+    public Editor() throws IOException {
         super("JEdit " + Main.VERSION);
         setSize(850, 600);
         JMenuBar m = new JMenuBar();
@@ -23,6 +24,7 @@ public class Editor extends JFrame {
         JPanel renderPanel = new JPanel(new BorderLayout());
 
         JLabel l = new JLabel();
+        setPos(l,"center");
         l.setIcon(new ImageIcon(x()));
 
         l.setBorder(border(2));
@@ -44,6 +46,8 @@ public class Editor extends JFrame {
         JMenuItem properties = new JMenuItem("Properties");
         JMenuItem exit = new JMenuItem("Exit");
 
+        JMenuItem alignment = new JMenuItem("Alignment");
+        MenuUtils.addAlignments(alignment);
 
         file.add(save);
         file.add(saveAs);
@@ -54,11 +58,10 @@ public class Editor extends JFrame {
         m.add(edit);
         m.add(paint);
         m.add(window);
+        window.add(alignment);
 
         setJMenuBar(m);
         styleMenus(m);
-
-
 
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setBorder(borderLayout(0,border));
