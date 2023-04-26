@@ -101,6 +101,14 @@ public class Visuals {
         button.setFocusPainted(false);
         return button;
     }
+    public static JButton styleButton(JButton button) {
+        button.setForeground(Color.GRAY);
+        button.setForeground(new Color(58, 54, 54));
+        button.setBackground(Color.gray);
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        return button;
+    }
 
     public static JButton settingButton() throws IOException {
         String buttonConfig = read(1, "button.cfg");
@@ -186,5 +194,8 @@ public class Visuals {
                 break;
         }
         i.setVerticalAlignment(JLabel.CENTER);
+    }
+    public static Color textCol(){
+        return lightGray;
     }
 }

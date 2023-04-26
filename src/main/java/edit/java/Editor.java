@@ -1,6 +1,5 @@
 package edit.java;
 
-import edit.java.Utils.MenuUtils;
 import edit.java.Utils.Visuals;
 
 import javax.swing.*;
@@ -46,8 +45,7 @@ public class Editor extends JFrame {
         JMenuItem properties = new JMenuItem("Properties");
         JMenuItem exit = new JMenuItem("Exit");
 
-        JMenuItem alignment = new JMenuItem("Alignment");
-        MenuUtils.addAlignments(alignment);
+        JMenuItem settings = new JMenuItem("Settings");
 
         file.add(save);
         file.add(saveAs);
@@ -58,7 +56,7 @@ public class Editor extends JFrame {
         m.add(edit);
         m.add(paint);
         m.add(window);
-        window.add(alignment);
+        window.add(settings);
 
         setJMenuBar(m);
         styleMenus(m);
@@ -70,10 +68,10 @@ public class Editor extends JFrame {
         xyPanel.setBackground(Visuals.background());
         xyPanel.setBorder(borderLayout(1, border));
         JLabel sizeLabel = renderLabel(winSize(this));
-        sizeLabel.setForeground(Color.LIGHT_GRAY);
+        sizeLabel.setForeground(textCol());
         xyPanel.add(sizeLabel);
         JLabel formatLabel = renderLabel("Format: PNG");
-        formatLabel.setForeground(Color.lightGray);
+        formatLabel.setForeground(textCol());
         xyPanel.add(formatLabel);
         bottomPanel.add(xyPanel, BorderLayout.LINE_START);
 
@@ -84,7 +82,7 @@ public class Editor extends JFrame {
         bottomPanel.add(separator, BorderLayout.CENTER);
 
         JSlider slider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
-        slider.setBackground(Color.lightGray);
+        slider.setBackground(textCol());
         slider.setBorder(borderLayout(1, border));
         slider.setMajorTickSpacing(25);
         slider.setBackground(Visuals.background());

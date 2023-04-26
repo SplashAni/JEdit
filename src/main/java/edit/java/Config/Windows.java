@@ -6,14 +6,18 @@ import edit.java.Utils.Utils;
 import edit.java.Utils.Visuals;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import static edit.java.Utils.FileUtils.write;
-import static edit.java.Utils.Utils.imgPath;
 import static edit.java.Utils.Utils.setupResizing;
-import static edit.java.Utils.Visuals.background;
+import static edit.java.Utils.Visuals.*;
 
 
 public class Windows {
@@ -21,7 +25,7 @@ public class Windows {
     public static JFrame l;
 
     public static void loader() throws IOException {
-        FileUtils.init(1,false);
+        FileUtils.init(1, false);
         l = new JFrame("Edit Window");
         l.getContentPane().setBackground(background());
         l.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -52,12 +56,12 @@ public class Windows {
         for (int i = 0; i < 4; i++) {
             ls[i] = new JLabel(titles[i]);
             ls[i].setFont(new Font("Helvetica", Font.PLAIN, 18));
-            ls[i].setForeground(Color.LIGHT_GRAY);
+            ls[i].setForeground(textCol());
             bs[i] = new JButton(options[i]);
             bs[i].setFont(new Font("Helvetica", Font.PLAIN, 18));
             bs[i].setBorderPainted(false);
             bs[i].setFocusPainted(false);
-            bs[i].setForeground(Color.LIGHT_GRAY);
+            bs[i].setForeground(textCol());
             bs[i].setBackground(background());
             textPanel.add(ls[i]);
             textPanel.add(bs[i]);
@@ -107,6 +111,7 @@ public class Windows {
 
         l.setVisible(true);
     }
+
     public static void loaderGui(int state) throws IOException { // this is actually an window :nerd:
         switch (state) {
             case 1 -> {
@@ -162,15 +167,97 @@ public class Windows {
             }
         }
     }
+
     public static String pathChooser(JLabel setThis) throws IOException {
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("png / jpeg", "png", "jpeg", "jpg");
         fileChooser.setFileFilter(filter);
         int returnVal = fileChooser.showOpenDialog(null);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            write(2,"img.temp",fileChooser.getSelectedFile().getAbsolutePath());
-            setupResizing(setThis,new ImageIcon(fileChooser.getSelectedFile().getAbsolutePath()));
+            write(2, "img.temp", fileChooser.getSelectedFile().getAbsolutePath());
+            setupResizing(setThis, new ImageIcon(fileChooser.getSelectedFile().getAbsolutePath()));
         }
         return null;
+    }
+
+    public static void settingsGui() {
+        JFrame f = new JFrame("My Frame");
+
+        Color y = new Color(73, 70, 70);
+
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.setSize(750, 500);
+
+        JButton[] buttons = {new JButton("Option 1"), new JButton("Option 2"), new JButton("Option 3"), new JButton("Option 4"), new JButton("Option 5"), new JButton("Option 6")};
+        JPanel lp = new JPanel(new GridLayout(buttons.length, 1));
+        lp.setBackground(defaultButton("").getBackground());
+        for (JButton b : buttons) {
+            b.setPreferredSize(new Dimension(80, 30));
+            b.setFont(b.getFont().deriveFont(12f)); //
+            b.setMargin(new Insets(5, 10, 5, 10)); // set padding
+            styleButton(b);
+            lp.add(b);
+        }
+
+        JTextField sf = new JTextField();
+        sf.setForeground(textCol());
+        Font font = new Font("Arial", Font.BOLD, 14);
+        sf.setFont(font);
+        sf.setBackground(y);
+        sf.setBorder(BorderFactory.createEmptyBorder());
+        sf.setBorder(border(2));
+        JButton fb = defaultButton("Search");
+
+        fb.addActionListener(e -> { // to much of a pro
+            String searchText = sf.getText();
+            for (int i = 0; i < buttons.length; i++) {
+                JButton b = buttons[i];
+                if (b.getText().toLowerCase().contains(searchText.toLowerCase())) {
+                    lp.remove(b);
+                    lp.add(b, 0);
+                }
+            }
+            lp.revalidate();
+            lp.repaint();
+        });
+
+        JPanel tp = new JPanel(new BorderLayout());
+        tp.setBackground(y);
+        tp.add(sf, BorderLayout.CENTER);
+        tp.add(fb, BorderLayout.EAST);
+
+        JPanel rp = new JPanel(new BorderLayout());
+
+        JSeparator s = new JSeparator(SwingConstants.HORIZONTAL);
+        s.setPreferredSize(new Dimension(rp.getWidth(), 1));
+        rp.add(s, BorderLayout.SOUTH);
+
+        JPanel bp = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        bp.setBackground(y);
+
+        JButton b1 = defaultButton("Close");
+        bp.add(b1);
+
+        JButton b2 = defaultButton("Apply");
+        bp.add(b2);
+        bp.setBorder(BorderFactory.createEmptyBorder());
+
+        f.add(bp, BorderLayout.SOUTH);
+
+        rp.setBackground(y);
+
+        JSplitPane sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, lp, rp);
+        sp.setBackground(Color.lightGray);
+        sp.setOneTouchExpandable(true);
+        sp.setDividerLocation(200);
+        sp.setDividerSize(10);
+
+        BasicSplitPaneDivider d = (BasicSplitPaneDivider) sp.getComponent(2);
+        d.setBorder(border(2));
+
+        f.add(tp, BorderLayout.NORTH);
+        f.add(sp, BorderLayout.CENTER);
+
+        f.setVisible(true);
     }
 }
