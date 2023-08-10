@@ -37,7 +37,7 @@ public class Utils {
         return directory.exists() && directory.isDirectory();
     }
 
-    public static void downloadImg(String imageUrl, String name) throws IOException { // we not using try chatches ok??
+    public static void downloadImg(String imageUrl, String name) throws IOException {
         if (!imgPath.exists()) {
             imgPath.mkdir();
         }
@@ -133,6 +133,7 @@ public class Utils {
             }
         });
     }
+
     public static String winSize(JFrame frame) {
         int width = frame.getWidth();
         int height = frame.getHeight();

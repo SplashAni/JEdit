@@ -1,5 +1,6 @@
-package edit.java;
+package edit.java.Gui;
 
+import edit.java.Main;
 import edit.java.Utils.Visuals;
 
 import javax.swing.*;

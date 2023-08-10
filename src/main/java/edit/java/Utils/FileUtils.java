@@ -15,17 +15,17 @@ public class FileUtils {
     public static void init(int stage, boolean clear) {
 
         switch (stage) {
-            case 1:
+            case 1 -> {
                 if (!loaderConfig.exists())
                     loaderConfig.mkdir();
-                break;
-            case 2:
+            }
+            case 2 -> {
                 if (!tempConfig.exists() && !clear)
                     tempConfig.mkdir();
                 else if (clear) {
                     tempConfig.delete();
-                    break;
                 }
+            }
         }
     }
 

@@ -1,19 +1,22 @@
 package edit.java;
 
 
-import edit.java.Config.Windows;
+import edit.java.Config.Config;
+import edit.java.Gui.ConfigGui;
+import edit.java.Gui.Editor;
 import edit.java.Utils.FileUtils;
 import edit.java.Utils.Utils;
 import edit.java.Utils.Visuals;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 
-import static edit.java.Config.Windows.pathChooser;
-import static edit.java.Utils.FileUtils.read;
+import static edit.java.Utils.FileUtils.write;
+import static edit.java.Utils.Utils.setupResizing;
 import static edit.java.Utils.Visuals.background;
 import static edit.java.Utils.Visuals.settingButton;
 
@@ -24,6 +27,8 @@ public class Initializer extends JFrame implements MouseListener { // guis will 
 
     public Initializer() throws IOException {
         super("Insert image");
+
+
         FileUtils.init(2,false);
 
         JPanel buttonManager = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
@@ -60,9 +65,9 @@ public class Initializer extends JFrame implements MouseListener { // guis will 
 
         JButton setting = settingButton();
         setting.addActionListener(e -> {
-            this.dispose();
             try {
-                Windows.loader();
+                dispose();
+                new ConfigGui();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -73,7 +78,7 @@ public class Initializer extends JFrame implements MouseListener { // guis will 
         buttonManager.add(setting);
         buttonManager.add(enter);
 
-        setSize(750, 550);
+        setSize(750, 520);
         add(buttonManager, BorderLayout.SOUTH);
         getContentPane().setBackground(background());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -88,12 +93,18 @@ public class Initializer extends JFrame implements MouseListener { // guis will 
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if(imgRenderer.getIcon() == null){
-            try {
-                pathChooser(imgRenderer);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            JFileChooser fileChooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("png / jpeg", "png", "jpeg", "jpg");
+            fileChooser.setFileFilter(filter);
+            int returnVal = fileChooser.showOpenDialog(null);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                String path = fileChooser.getSelectedFile().getAbsolutePath();
+                try {
+                    write(2, "img.temp", path);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                imgRenderer.setIcon(new ImageIcon(path));
         }
     }
 

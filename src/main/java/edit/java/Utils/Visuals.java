@@ -153,10 +153,11 @@ public class Visuals {
             return switch (stage) {
                 case 1 -> BorderFactory.createMatteBorder(0, 2, 0, 2, c);
                 case 2 -> BorderFactory.createMatteBorder(2, 2, 0, 2, c);
+                case 3 -> BorderFactory.createMatteBorder(0, 2, 2, 2, c);
                 default -> BorderFactory.createMatteBorder(0, 0, 2, 2, c);
             };
         } else {
-            return BorderFactory.createMatteBorder(0, 0, 0, 0, c);
+            return BorderFactory.createMatteBorder(0, 0, 0, 0, c); // for emtpy borders (:
         }
     }
 
