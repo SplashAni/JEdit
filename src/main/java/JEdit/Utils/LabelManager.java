@@ -3,9 +3,13 @@ package JEdit.Utils;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.List;
 
 public class LabelManager {
     JLabel label;
@@ -16,6 +20,40 @@ public class LabelManager {
     }
 
     public void init() {
+
+        // Enable drop support on the label
+        label.setDropTarget(new DropTarget(label, new DropTargetAdapter() {
+            @Override
+            public void drop(DropTargetDropEvent event) {
+                try {
+                    Transferable tr = event.getTransferable();
+                    if (tr.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
+                        event.acceptDrop(DnDConstants.ACTION_COPY);
+                        List<File> files = (List<File>) tr.getTransferData(DataFlavor.javaFileListFlavor);
+
+                        // Handle the dropped files (you can choose to handle multiple files here)
+                        if (!files.isEmpty()) {
+                            File file = files.get(0); // Get the first file (you can handle multiple if needed)
+                            ImageIcon imageIcon = new ImageIcon(file.getAbsolutePath());
+                            label.setIcon(imageIcon);
+                            label.setText("");
+
+                            if (imageIcon.getIconWidth() > label.getWidth() ||
+                                    imageIcon.getIconHeight() > label.getHeight()) {
+                                label.setPreferredSize(new Dimension(imageIcon.getIconWidth(), imageIcon.getIconHeight()));
+                                label.revalidate();
+                            }
+                        }
+
+                        event.dropComplete(true);
+                    } else {
+                        event.rejectDrop();
+                    }
+                } catch (Exception e) {
+                    event.rejectDrop();
+                }
+            }
+        }));
 
         this.label.addMouseListener(new MouseAdapter() {
 
@@ -39,16 +77,12 @@ public class LabelManager {
                         File file = fileChooser.getSelectedFile();
                         ImageIcon imageIcon = new ImageIcon(file.getAbsolutePath());
                         this.label.setIcon(imageIcon);
-                        
+
                         this.label.setText("");
 
-                        if (imageIcon.getIconWidth() > this.label.getWidth()) {
+                        if (imageIcon.getIconWidth() > this.label.getWidth() ||
+                                imageIcon.getIconHeight() > this.label.getHeight()) {
                             this.label.setPreferredSize(new Dimension(imageIcon.getIconWidth(), this.label.getHeight()));
-                            this.label.revalidate();
-                        }
-
-                        if (imageIcon.getIconHeight() > this.label.getHeight()) {
-                            this.label.setPreferredSize(new Dimension(this.label.getWidth(), imageIcon.getIconHeight()));
                             this.label.revalidate();
                         }
                     }
@@ -60,7 +94,7 @@ public class LabelManager {
                 isHovered = true;
 
                 if (this.label.getIcon() == null) {
-                    this.label.setText("Click to open file selector.");
+                    this.label.setText("Click to open file selector or drag and drop an image here.");
                 }
             }
 
@@ -69,7 +103,7 @@ public class LabelManager {
                 isHovered = false;
 
                 if (this.label.getIcon() == null) {
-                    this.label.setText("Drag or click to add an image here");
+                    this.label.setText("Drag and drop an image or click to add an image here");
                 }
             }
         });
