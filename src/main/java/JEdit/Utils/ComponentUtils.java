@@ -1,6 +1,8 @@
 package JEdit.Utils;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
@@ -11,13 +13,17 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.List;
 
-public class LabelManager {
+public class ComponentUtils {
+    public static ComponentUtils INSTANCE = new ComponentUtils();
     JLabel label;
     boolean isHovered = false;
+    public ComponentUtils(){
 
-    public LabelManager(JLabel label) {
+    }
+    public ComponentUtils(JLabel label) {
         this.label = label;
     }
+
 
     public void init() {
 
@@ -55,7 +61,7 @@ public class LabelManager {
 
         this.label.addMouseListener(new MouseAdapter() {
 
-            private final JLabel label = LabelManager.this.label;
+            private final JLabel label = ComponentUtils.this.label;
 
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -103,6 +109,24 @@ public class LabelManager {
                     this.label.setText("Drag and drop an image or click to add an image here");
                 }
             }
+        });
+    }
+    public void registerLimit(JButton button, JTextField field) {
+        field.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                String text = field.getText();
+                button.setEnabled(text.length() >= 3);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                String text = field.getText();
+                button.setEnabled(text.length() >= 3);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {}
         });
     }
 }

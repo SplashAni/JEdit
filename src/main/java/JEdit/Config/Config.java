@@ -1,6 +1,9 @@
 package JEdit.Config;
 
-import JEdit.Initializer;
+import JEdit.Windows.ImageWindow;
+import JEdit.Utils.SystemUtils;
+import JEdit.Windows.SetupWindow;
+import com.formdev.flatlaf.FlatDarculaLaf;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -18,6 +21,7 @@ public class Config {
     String dir = System.getProperty("user.home") + separator + "JEdit";
     File dirFile = new File(dir);
     private final String path = dir + separator + "config.json";
+    public final File pathFile = new File(path);
     private final Gson gson;
     private final JsonObject data;
 
@@ -27,24 +31,40 @@ public class Config {
     }
     public boolean isNew(){
         createDir();
-        return !new File(path).exists();
+        return !pathFile.exists();
     }
     public void createDir(){
        if(!dirFile.exists()){
            dirFile.mkdir();
        }
     }
+    public void run() {
 
-    public void run(){
-        if(isNew()){
-            SwingUtilities.invokeLater(ConfigWindow::new);
+        if (isNew()) {
+
+            SwingUtilities.invokeLater(SetupWindow::new);
+
         } else {
-            SwingUtilities.invokeLater(Initializer::new);
+            if (!hasProperties(
+                    "username",
+                    "theme",
+                    "font",
+                    "fontSize"
+            )) {
+
+                pathFile.delete();
+
+                SwingUtilities.invokeLater(SetupWindow::new);
+
+                return;
+            }
+
+            SystemUtils.INSTANCE.installTheme();
+
+
+            SwingUtilities.invokeLater(ImageWindow::new);
         }
     }
-
-
-
     public void saveString(String name, String value) {
         data.addProperty(name, value);
         saveConfig();
@@ -57,7 +77,14 @@ public class Config {
         }
         return null;
     }
-
+    public boolean hasProperties(String... names) {
+        for (String name : names) {
+            if (!data.has(name)) {
+                return false;
+            }
+        }
+        return true;
+    }
     public void saveInt(String name, int value) {
         data.addProperty(name, value);
         saveConfig();
@@ -67,9 +94,8 @@ public class Config {
         if (data.has(name)) {
             return data.get(name).getAsInt();
         }
-        return -1;
+        return 12;
     }
-
 
 
     public void saveBoolean(String name, boolean value) {
@@ -102,4 +128,29 @@ public class Config {
             e.printStackTrace();
         }
     }
+    public void defaultConfig() {
+
+        if (!pathFile.exists()) { /* this is gson's job :Sob: bruh*/
+            try {
+                pathFile.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        try (FileWriter writer = new FileWriter(pathFile)) {
+
+            writer.write("""
+                    {
+                      "username": "User",
+                      "theme": "System",
+                      "font": "Arial",
+                      "fontSize": 12
+                    }""");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

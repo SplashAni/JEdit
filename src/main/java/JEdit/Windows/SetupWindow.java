@@ -1,11 +1,13 @@
-package JEdit.Config;
+package JEdit.Windows;
 
+import JEdit.Config.Config;
+import JEdit.Utils.ComponentUtils;
 import com.formdev.flatlaf.FlatDarculaLaf;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
-public class ConfigWindow extends JFrame {
+public class SetupWindow extends JFrame {
     int stage;
     Config config = Config.INSTANCE;
 
@@ -13,7 +15,7 @@ public class ConfigWindow extends JFrame {
     /* Components */
     String username, theme;
 
-    public ConfigWindow() {
+    public SetupWindow() {
         FlatDarculaLaf.setup();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -22,21 +24,21 @@ public class ConfigWindow extends JFrame {
 
         setVisible(true);
 
-        x();
+        this.stage = 0;
+        render();
 
     }
 
     public void render() {
-        config.saveBoolean("no",false);
         switch (stage) {
-            case 0 -> x();
-            case 1 -> y();
-            case 2 -> z();
+            case 0 -> username();
+            case 1 -> theme();
+            case 2 -> style();
             default -> System.exit(0);
         }
     }
 
-    public void x() {
+    public void username() {
 
         setSize(445, 230);
         setTitle("Name");
@@ -65,6 +67,9 @@ public class ConfigWindow extends JFrame {
         JButton cancelButton = new JButton("Cancel");
         JButton nextButton = new JButton("Next >");
 
+        nextButton.setEnabled(textField.getText().length() > 1);
+
+
         cancelButton.addActionListener(e -> System.exit(0));
 
         nextButton.addActionListener(e -> {
@@ -74,13 +79,15 @@ public class ConfigWindow extends JFrame {
             render();
         });
 
+        ComponentUtils.INSTANCE.registerLimit(nextButton,textField);
+
         buttonPanel.add(cancelButton);
         buttonPanel.add(nextButton);
         gbc.gridy = 2;
         contentPane.add(buttonPanel, gbc);
     }
 
-    public void y() {
+    public void theme() {
 
         getContentPane().removeAll();
         revalidate();
@@ -159,8 +166,7 @@ public class ConfigWindow extends JFrame {
         revalidate();
     }
 
-    public void z() {
-
+    public void style() {
         getContentPane().removeAll();
         revalidate();
 
@@ -175,7 +181,6 @@ public class ConfigWindow extends JFrame {
         setContentPane(contentPane);
 
         JLabel headingLabel = new JLabel("Select a style");
-
         headingLabel.setFont(new Font("Arial", Font.BOLD, 18));
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -184,9 +189,11 @@ public class ConfigWindow extends JFrame {
 
         JLabel fontSizeLabel = new JLabel("Font Size:");
         JComboBox<Integer> fontSizeDropdown = new JComboBox<>();
-        for (int i = 1; i <= 36; i++) {
+        for (int i = 5; i <= 36; i++) {
             fontSizeDropdown.addItem(i);
         }
+        fontSizeDropdown.setSelectedItem(12);
+
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
@@ -194,14 +201,17 @@ public class ConfigWindow extends JFrame {
         gbc.gridx = 1;
         contentPane.add(fontSizeDropdown, gbc);
 
-        JLabel fontStyleLabel = new JLabel("Font Style:");
-        JComboBox<String> fontStyleDropdown = new JComboBox<>(new String[]{"Regular", "Bold", "Italic"});
+        JLabel fontLabel = new JLabel("Font:");
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        String[] availableFonts = ge.getAvailableFontFamilyNames();
+        JComboBox<String> fontDropdown = new JComboBox<>(availableFonts);
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 1;
-        contentPane.add(fontStyleLabel, gbc);
+        contentPane.add(fontLabel, gbc);
         gbc.gridx = 1;
-        contentPane.add(fontStyleDropdown, gbc);
+        fontDropdown.setSelectedItem("Arial");
+        contentPane.add(fontDropdown, gbc);
 
         JButton backButton = new JButton(" < Back");
         JButton cancelButton = new JButton("Cancel");
@@ -217,16 +227,14 @@ public class ConfigWindow extends JFrame {
         });
 
         finishButton.addActionListener(e -> {
-
-
-            if(isNull(username,theme, Objects.requireNonNull(fontStyleDropdown.getSelectedItem()).toString())) {
+            if (isNull(username, theme, fontDropdown.getSelectedItem().toString())) {
                 System.exit(0);
             }
 
             config.saveString("username", username);
             config.saveString("theme", theme);
-            config.saveString("fontStyle", fontStyleDropdown.getSelectedItem().toString());
-            config.saveInt("fontSize", fontSizeDropdown.getSelectedIndex());
+            config.saveString("font", fontDropdown.getSelectedItem().toString());
+            config.saveInt("fontSize", (Integer) fontSizeDropdown.getSelectedItem());
 
             System.exit(0);
         });
@@ -243,6 +251,7 @@ public class ConfigWindow extends JFrame {
 
         revalidate();
     }
+
     public boolean isNull(String ... s){
         for(String string : s){
             if(string == null) return true;

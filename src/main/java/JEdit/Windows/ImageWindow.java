@@ -1,16 +1,17 @@
-package JEdit;
+package JEdit.Windows;
 
-import JEdit.Utils.LabelManager;
+import JEdit.Config.ConfigReader;
+import JEdit.Utils.ComponentUtils;
+import JEdit.Utils.RenderUtils;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class Initializer extends JFrame {
+public class ImageWindow extends JFrame {
+    ConfigReader configReader = ConfigReader.INSTANCE;
 
-
-    public Initializer() {
-        super("JEdit");
-
+    public ImageWindow() {
+        setTitle("JEdit | " + configReader.username());
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(820, 505);
         setLocationRelativeTo(null);
@@ -19,32 +20,41 @@ public class Initializer extends JFrame {
 
         JLabel headingLabel = new JLabel("Image Loader");
         headingLabel.setHorizontalAlignment(JLabel.CENTER);
-        headingLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        headingLabel.setFont(new Font(configReader.fontFamily(), Font.BOLD, 20));
         panel.add(headingLabel, BorderLayout.NORTH);
 
+        JScrollPane scrollPane = new JScrollPane();
+
+        scrollPane.setBorder(null);
+
         JLabel imageLabel = new JLabel("Drag or click to add an image here");
+        
+        imageLabel.setFont(configReader.font());
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
         imageLabel.setVerticalAlignment(JLabel.CENTER);
+        scrollPane.setViewportView(imageLabel);
 
-        LabelManager hoverUtils = new LabelManager(imageLabel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
+        ComponentUtils hoverUtils = new ComponentUtils(imageLabel);
         hoverUtils.init();
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
         JButton clearButton = new JButton("Clear");
-
         clearButton.addActionListener(e -> imageLabel.setIcon(null));
 
         JButton enterButton = new JButton("Enter");
         buttonPanel.add(clearButton);
         buttonPanel.add(enterButton);
 
-        panel.add(imageLabel, BorderLayout.CENTER);
+        RenderUtils.INSTANCE.setFont(clearButton, enterButton);
+
+        panel.add(scrollPane, BorderLayout.CENTER);
         panel.add(buttonPanel, BorderLayout.SOUTH);
 
         add(panel);
         setVisible(true);
     }
-
 }
