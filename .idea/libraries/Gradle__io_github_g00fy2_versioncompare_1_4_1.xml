@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: io.github.g00fy2:versioncompare:1.4.1" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="io.github.g00fy2" artifactId="versioncompare" version="1.4.1" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.github.g00fy2/versioncompare/1.4.1/c56a22855fb7846ee0829c4820698a3bbbf6f3b1/versioncompare-1.4.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.github.g00fy2/versioncompare/1.4.1/907eb9245209596caacd5c901ca02d280bddfe65/versioncompare-1.4.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

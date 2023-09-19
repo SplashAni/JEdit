@@ -21,7 +21,6 @@ public class LabelManager {
 
     public void init() {
 
-        // Enable drop support on the label
         label.setDropTarget(new DropTarget(label, new DropTargetAdapter() {
             @Override
             public void drop(DropTargetDropEvent event) {
@@ -31,9 +30,8 @@ public class LabelManager {
                         event.acceptDrop(DnDConstants.ACTION_COPY);
                         List<File> files = (List<File>) tr.getTransferData(DataFlavor.javaFileListFlavor);
 
-                        // Handle the dropped files (you can choose to handle multiple files here)
                         if (!files.isEmpty()) {
-                            File file = files.get(0); // Get the first file (you can handle multiple if needed)
+                            File file = files.get(0);
                             ImageIcon imageIcon = new ImageIcon(file.getAbsolutePath());
                             label.setIcon(imageIcon);
                             label.setText("");
@@ -62,7 +60,6 @@ public class LabelManager {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (isHovered) {
-                    ThemeUtils.setTheme();
 
                     JFileChooser fileChooser = new JFileChooser();
 

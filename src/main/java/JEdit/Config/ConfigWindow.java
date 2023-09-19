@@ -4,28 +4,30 @@ import com.formdev.flatlaf.FlatDarculaLaf;
 
 import javax.swing.*;
 import java.awt.*;
-
+import java.util.Objects;
 public class ConfigWindow extends JFrame {
     int stage;
+    Config config = Config.INSTANCE;
 
-    /*components*/
-    JTextField textField;
+
+    /* Components */
+    String username, theme;
 
     public ConfigWindow() {
-
         FlatDarculaLaf.setup();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         setLocationRelativeTo(null);
 
-
         setVisible(true);
 
-        render();
+        x();
 
     }
+
     public void render() {
+        config.saveBoolean("no",false);
         switch (stage) {
             case 0 -> x();
             case 1 -> y();
@@ -33,7 +35,6 @@ public class ConfigWindow extends JFrame {
             default -> System.exit(0);
         }
     }
-
 
     public void x() {
 
@@ -55,7 +56,7 @@ public class ConfigWindow extends JFrame {
         gbc.gridwidth = 2;
         contentPane.add(headingLabel, gbc);
 
-        textField = new JTextField();
+        JTextField textField = new JTextField();
         textField.setFont(new Font("Arial", Font.PLAIN, 14));
         gbc.gridy = 1;
         contentPane.add(textField, gbc);
@@ -67,9 +68,10 @@ public class ConfigWindow extends JFrame {
         cancelButton.addActionListener(e -> System.exit(0));
 
         nextButton.addActionListener(e -> {
-            String enteredText = textField.getText();
-            System.out.println(enteredText);
-            y();
+
+            username = textField.getText();
+            stage = 1;
+            render();
         });
 
         buttonPanel.add(cancelButton);
@@ -77,7 +79,9 @@ public class ConfigWindow extends JFrame {
         gbc.gridy = 2;
         contentPane.add(buttonPanel, gbc);
     }
+
     public void y() {
+
         getContentPane().removeAll();
         revalidate();
 
@@ -110,9 +114,7 @@ public class ConfigWindow extends JFrame {
         ButtonGroup buttonGroup = new ButtonGroup();
         for (int i = 0; i < radioButtons.length; i++) {
             buttonGroup.add(radioButtons[i]);
-            radioButtons[i].addActionListener(e -> {
-                nextButton.setEnabled(true);
-            });
+            radioButtons[i].addActionListener(e -> nextButton.setEnabled(true));
             gbc.gridy = 1;
             gbc.gridwidth = 1;
             gbc.gridx = i;
@@ -124,7 +126,8 @@ public class ConfigWindow extends JFrame {
         JButton cancelButton = new JButton("Cancel");
 
         backButton.addActionListener(e -> {
-            x();
+            stage = 0;
+            render();
         });
 
         cancelButton.addActionListener(e -> {
@@ -132,7 +135,16 @@ public class ConfigWindow extends JFrame {
         });
 
         nextButton.addActionListener(e -> {
-            z();
+
+            if (radioButtons[0].isSelected()) {
+                theme = "Light";
+            } else if (radioButtons[1].isSelected()) {
+                theme = "Dark";
+            } else if (radioButtons[2].isSelected()) {
+                theme = "System";
+            }
+            stage = 2;
+            render();
         });
 
         buttonPanel.add(backButton);
@@ -148,6 +160,7 @@ public class ConfigWindow extends JFrame {
     }
 
     public void z() {
+
         getContentPane().removeAll();
         revalidate();
 
@@ -170,7 +183,10 @@ public class ConfigWindow extends JFrame {
         contentPane.add(headingLabel, gbc);
 
         JLabel fontSizeLabel = new JLabel("Font Size:");
-        JComboBox<String> fontSizeDropdown = new JComboBox<>(new String[]{"Small", "Medium", "Large"});
+        JComboBox<Integer> fontSizeDropdown = new JComboBox<>();
+        for (int i = 1; i <= 36; i++) {
+            fontSizeDropdown.addItem(i);
+        }
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
@@ -192,7 +208,8 @@ public class ConfigWindow extends JFrame {
         JButton finishButton = new JButton("Finish");
 
         backButton.addActionListener(e -> {
-            y();
+            stage = 1;
+            render();
         });
 
         cancelButton.addActionListener(e -> {
@@ -200,7 +217,18 @@ public class ConfigWindow extends JFrame {
         });
 
         finishButton.addActionListener(e -> {
-            System.exit(1);
+
+
+            if(isNull(username,theme, Objects.requireNonNull(fontStyleDropdown.getSelectedItem()).toString())) {
+                System.exit(0);
+            }
+
+            config.saveString("username", username);
+            config.saveString("theme", theme);
+            config.saveString("fontStyle", fontStyleDropdown.getSelectedItem().toString());
+            config.saveInt("fontSize", fontSizeDropdown.getSelectedIndex());
+
+            System.exit(0);
         });
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -215,5 +243,10 @@ public class ConfigWindow extends JFrame {
 
         revalidate();
     }
-
+    public boolean isNull(String ... s){
+        for(String string : s){
+            if(string == null) return true;
+        }
+        return false;
+    }
 }

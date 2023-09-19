@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: de.jangassen:jfa:1.2.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="de.jangassen" artifactId="jfa" version="1.2.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.jangassen/jfa/1.2.0/e324d3a415027fcefdc33a68d39bb852aa324862/jfa-1.2.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.jangassen/jfa/1.2.0/c7615d9ff9423c0575e99ae2b7ce4589c9f092fa/jfa-1.2.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
