@@ -1,9 +1,8 @@
 package JEdit.Config;
 
-import JEdit.Windows.ImageWindow;
+import JEdit.Windows.RetrieverWindow;
 import JEdit.Utils.SystemUtils;
 import JEdit.Windows.SetupWindow;
-import com.formdev.flatlaf.FlatDarculaLaf;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -62,7 +61,13 @@ public class Config {
             SystemUtils.INSTANCE.installTheme();
 
 
-            SwingUtilities.invokeLater(ImageWindow::new);
+            SwingUtilities.invokeLater(RetrieverWindow::new);
+        }
+    }
+    public void removeProperty(String name) {
+        if (data.has(name)) {
+            data.remove(name);
+            saveConfig();
         }
     }
     public void saveString(String name, String value) {
@@ -128,6 +133,7 @@ public class Config {
             e.printStackTrace();
         }
     }
+
     public void defaultConfig() {
 
         if (!pathFile.exists()) { /* this is gson's job :Sob: bruh*/

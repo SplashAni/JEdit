@@ -1,5 +1,9 @@
 package JEdit.Utils;
 
+import JEdit.Config.Config;
+import JEdit.Windows.EditorWindow;
+import JEdit.Windows.RetrieverWindow;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -15,6 +19,7 @@ import java.util.List;
 
 public class ComponentUtils {
     public static ComponentUtils INSTANCE = new ComponentUtils();
+    Config config = Config.INSTANCE;
     JLabel label;
     boolean isHovered = false;
     public ComponentUtils(){
@@ -39,6 +44,8 @@ public class ComponentUtils {
                         if (!files.isEmpty()) {
                             File file = files.get(0);
                             ImageIcon imageIcon = new ImageIcon(file.getAbsolutePath());
+                            config.saveString("path",file.getAbsolutePath());
+
                             label.setIcon(imageIcon);
                             label.setText("");
 
@@ -79,6 +86,8 @@ public class ComponentUtils {
                     if (returnValue == JFileChooser.APPROVE_OPTION) {
                         File file = fileChooser.getSelectedFile();
                         ImageIcon imageIcon = new ImageIcon(file.getAbsolutePath());
+                        config.saveString("path",file.getAbsolutePath());
+
                         this.label.setIcon(imageIcon);
 
                         this.label.setText("");

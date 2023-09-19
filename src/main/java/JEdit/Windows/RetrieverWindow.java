@@ -7,10 +7,9 @@ import JEdit.Utils.RenderUtils;
 import javax.swing.*;
 import java.awt.*;
 
-public class ImageWindow extends JFrame {
+public class RetrieverWindow extends JFrame {
     ConfigReader configReader = ConfigReader.INSTANCE;
-
-    public ImageWindow() {
+    public RetrieverWindow() {
         setTitle("JEdit | " + configReader.username());
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(820, 505);
@@ -46,6 +45,14 @@ public class ImageWindow extends JFrame {
         clearButton.addActionListener(e -> imageLabel.setIcon(null));
 
         JButton enterButton = new JButton("Enter");
+
+        enterButton.addActionListener(e -> {
+            if(configReader.hasPath()){
+                SwingUtilities.invokeLater(EditorWindow::new);
+                this.dispose();
+            }
+        });
+
         buttonPanel.add(clearButton);
         buttonPanel.add(enterButton);
 

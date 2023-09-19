@@ -19,5 +19,11 @@ public class ConfigReader {
         return new Font(fontFamily(), Font.PLAIN, config.loadInt("fontSize"));
     }
 
+    public String path(){
+        return config.loadString("path");
+    }
+    public boolean hasPath(){
+        return !(path() == null);
+    }
 
 }
