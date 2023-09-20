@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -103,6 +104,15 @@ public class Config {
     }
 
 
+    public void saveColor(String name, Color color) {
+        int rgb = color.getRGB();
+        saveInt(name, rgb);
+    }
+
+    public Color loadColor(String name) {
+        int rgb = loadInt(name);
+        return new Color(rgb);
+    }
     public void saveBoolean(String name, boolean value) {
         data.addProperty(name, value);
         saveConfig();
@@ -114,7 +124,6 @@ public class Config {
         }
         return false;
     }
-
 
     private JsonObject loadConfig() {
         try {

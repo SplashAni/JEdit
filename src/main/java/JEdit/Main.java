@@ -4,7 +4,6 @@ import JEdit.Config.Config;
 import JEdit.Config.ImgConfig;
 import JEdit.Windows.EditorWindow;
 import com.formdev.flatlaf.FlatDarculaLaf;
-import com.formdev.flatlaf.FlatLightLaf;
 
 public class Main{
 
@@ -16,12 +15,9 @@ public class Main{
             return;
         }
 
-        FlatDarculaLaf.install();
+        FlatDarculaLaf.setup();
 
-     ///   Config.INSTANCE.run();
-//        new EditorWindow();
-        ImgConfig imgConfig = new ImgConfig(true);
-        imgConfig.createDir();
-        imgConfig.download();
+        new EditorWindow();
+
     }
 }

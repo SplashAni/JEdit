@@ -1,14 +1,23 @@
 package JEdit.Windows;
 
+import JEdit.Config.ImgConfig;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class EditorWindow extends JFrame {
+    private final JSplitPane splitPane;
+
     public EditorWindow() {
         super("Editor");
 
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        initializeSplitPane();
 
         JMenuBar menuBar = new JMenuBar();
 
@@ -30,24 +39,27 @@ public class EditorWindow extends JFrame {
 
         getContentPane().add(splitPane);
 
+        setLocationRelativeTo(null);
+        setSize(975, 620);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+
+    private void initializeSplitPane() {
         splitPane.setResizeWeight(0.2);
         splitPane.setDividerLocation(55);
-
 
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
         JPanel rightPanel = new JPanel();
 
-        ArrayList<JButton> buttonList = new ArrayList<>();
-
         leftPanel.add(Box.createRigidArea(new Dimension(0, 12)));
 
-        buttonList.add(styledButton("C:\\Users\\User\\Downloads\\icons8-pencil-50.png"));
-        buttonList.add(styledButton("C:\\Users\\User\\Downloads\\icons8-lowercase-t-50.png"));
-        buttonList.add(styledButton("C:\\Users\\User\\Downloads\\icons8-paintbrush-50.png"));
-        buttonList.add(styledButton("C:\\Users\\User\\Downloads\\icons8-color-50.png"));
-        buttonList.add(styledButton("C:\\Users\\User\\Downloads\\icons8-forward-50.png"));
-        buttonList.add(styledButton("C:\\Users\\User\\Downloads\\icons8-back-50.png"));
+        ArrayList<JButton> buttonList;
+
+        String[] names = {"pencil", "lowercase", "paintbrush", "color", "forward", "backward"};
+
+        buttonList = Arrays.stream(names).map(this::styledButton).collect(Collectors.toCollection(ArrayList::new));
 
         for (JButton button : buttonList) {
             button.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -58,18 +70,22 @@ public class EditorWindow extends JFrame {
         centerPanel.add(leftPanel);
 
         splitPane.setLeftComponent(centerPanel);
-
         splitPane.setRightComponent(rightPanel);
 
-        setLocationRelativeTo(null);
-        setSize(975, 620);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setVisible(true);
+        splitPane.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                int currentDividerLocation = splitPane.getDividerLocation();
+                if (currentDividerLocation > 55) {
+                    splitPane.setDividerLocation(55);
+                }
+            }
+        });
     }
 
-    public JButton styledButton(String path) {
+    public JButton styledButton(String name) {
         JButton b = new JButton();
-        ImageIcon imageIcon = new ImageIcon(path);
+        ImageIcon imageIcon = (ImgConfig.INSTANCE.icon(name));
         Image scaled = imageIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
         ImageIcon resized = new ImageIcon(scaled);
         b.setIcon(resized);
@@ -77,8 +93,6 @@ public class EditorWindow extends JFrame {
         b.setFocusPainted(false);
         b.setBackground(null);
 
-
         return b;
     }
-
 }

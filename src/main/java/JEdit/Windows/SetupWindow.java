@@ -1,6 +1,7 @@
 package JEdit.Windows;
 
 import JEdit.Config.Config;
+import JEdit.Config.ImgConfig;
 import JEdit.Utils.ComponentUtils;
 import com.formdev.flatlaf.FlatDarculaLaf;
 
@@ -11,11 +12,16 @@ public class SetupWindow extends JFrame {
     int stage;
     Config config = Config.INSTANCE;
 
-
-    /* Components */
     String username, theme;
+    Color iconColor;
+    boolean buttonOutline;
 
     public SetupWindow() {
+
+        ImgConfig imgConfig = new ImgConfig(true);
+        imgConfig.createDir();
+        imgConfig.download();
+
         FlatDarculaLaf.setup();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -32,11 +38,13 @@ public class SetupWindow extends JFrame {
     public void render() {
         switch (stage) {
             case 0 -> username();
-            case 1 -> theme();
-            case 2 -> style();
+            case 1 -> buttonStyle();
+            case 2 -> theme();
+            case 3 -> style();
             default -> System.exit(0);
         }
     }
+
 
     public void username() {
 
@@ -86,6 +94,82 @@ public class SetupWindow extends JFrame {
         gbc.gridy = 2;
         contentPane.add(buttonPanel, gbc);
     }
+    public void buttonStyle() {
+        getContentPane().removeAll();
+        revalidate();
+
+        setSize(500, 300);
+        GridBagConstraints gbc = new GridBagConstraints();
+        setTitle("Button Style");
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 10, 10, 10);
+
+        JPanel contentPane = new JPanel();
+        contentPane.setLayout(new GridBagLayout());
+        setContentPane(contentPane);
+
+        JLabel headingLabel = new JLabel("Select a button style");
+        headingLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        contentPane.add(headingLabel, gbc);
+
+        JButton colorPickerButton = new JButton("Icon color");
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 2;
+        contentPane.add(colorPickerButton, gbc);
+
+        JColorChooser colorChooser = new JColorChooser();
+        gbc.gridy = 2;
+        gbc.gridwidth = 2;
+        contentPane.add(colorChooser, gbc);
+        colorChooser.setVisible(false);
+
+        JRadioButton includeBordersRadio = new JRadioButton("Include Borders");
+        includeBordersRadio.setSelected(true);
+        gbc.gridy = 3;
+        gbc.gridwidth = 2;
+        contentPane.add(includeBordersRadio, gbc);
+
+        colorPickerButton.addActionListener(e -> {
+            colorChooser.setVisible(!colorChooser.isVisible());
+        });
+
+        JButton backButton = new JButton(" < Back");
+        JButton cancelButton = new JButton("Cancel");
+        JButton nextButton = new JButton("Next >");
+
+        backButton.addActionListener(e -> {
+            stage = 0;
+            render();
+        });
+
+        cancelButton.addActionListener(e -> {
+            System.exit(1);
+        });
+
+        nextButton.addActionListener(e -> {
+            this.iconColor = colorChooser.getColor();
+            this.buttonOutline = includeBordersRadio.isSelected();
+
+            stage = 2;
+            render();
+        });
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.add(backButton);
+        buttonPanel.add(cancelButton);
+        buttonPanel.add(nextButton);
+
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
+        contentPane.add(buttonPanel, gbc);
+    }
+
+
 
     public void theme() {
 
@@ -133,7 +217,7 @@ public class SetupWindow extends JFrame {
         JButton cancelButton = new JButton("Cancel");
 
         backButton.addActionListener(e -> {
-            stage = 0;
+            stage = 1;
             render();
         });
 
@@ -150,7 +234,7 @@ public class SetupWindow extends JFrame {
             } else if (radioButtons[2].isSelected()) {
                 theme = "System";
             }
-            stage = 2;
+            stage = 3;
             render();
         });
 
@@ -205,12 +289,12 @@ public class SetupWindow extends JFrame {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         String[] availableFonts = ge.getAvailableFontFamilyNames();
         JComboBox<String> fontDropdown = new JComboBox<>(availableFonts);
+        fontDropdown.setSelectedItem("Arial");
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 1;
         contentPane.add(fontLabel, gbc);
         gbc.gridx = 1;
-        fontDropdown.setSelectedItem("Arial");
         contentPane.add(fontDropdown, gbc);
 
         JButton backButton = new JButton(" < Back");
@@ -218,7 +302,7 @@ public class SetupWindow extends JFrame {
         JButton finishButton = new JButton("Finish");
 
         backButton.addActionListener(e -> {
-            stage = 1;
+            stage = 2;
             render();
         });
 
@@ -227,16 +311,19 @@ public class SetupWindow extends JFrame {
         });
 
         finishButton.addActionListener(e -> {
-            if (isNull(username, theme, fontDropdown.getSelectedItem().toString())) {
-                System.exit(0);
+            if (!isNull(username, theme, (String) fontDropdown.getSelectedItem())) {
+                config.saveString("username", username);
+                config.saveString("theme", theme);
+                config.saveString("font", Objects.requireNonNull(fontDropdown.getSelectedItem()).toString());
+                config.saveInt("fontSize", (Integer) fontSizeDropdown.getSelectedItem());
+                config.saveColor("iconColor", iconColor);
+                config.saveBoolean("buttonOutline", buttonOutline);
+
+                setVisible(false);
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Please fill in all requirements.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-
-            config.saveString("username", username);
-            config.saveString("theme", theme);
-            config.saveString("font", fontDropdown.getSelectedItem().toString());
-            config.saveInt("fontSize", (Integer) fontSizeDropdown.getSelectedItem());
-
-            System.exit(0);
         });
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -251,6 +338,7 @@ public class SetupWindow extends JFrame {
 
         revalidate();
     }
+
 
     public boolean isNull(String ... s){
         for(String string : s){
