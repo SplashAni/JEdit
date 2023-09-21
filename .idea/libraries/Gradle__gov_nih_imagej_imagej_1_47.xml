@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: gov.nih.imagej:imagej:1.47" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="gov.nih.imagej" artifactId="imagej" version="1.47" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/gov.nih.imagej/imagej/1.47/2e23890ec2415cd250d05421f895768ae05c249b/imagej-1.47.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/gov.nih.imagej/imagej/1.47/3411e778928357830f461d65f4b924d7abb55b03/imagej-1.47-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

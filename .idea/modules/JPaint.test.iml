@@ -9,6 +9,7 @@
     <orderEntry type="module" module-name="JPaint.main" />
     <orderEntry type="library" name="Gradle: com.formdev:flatlaf:3.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.10.1" level="project" />
+    <orderEntry type="library" name="Gradle: gov.nih.imagej:imagej:1.47" level="project" />
     <orderEntry type="library" name="Gradle: com.github.Dansoftowner:jSystemThemeDetector:3.8" level="project" />
     <orderEntry type="library" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.8.1" level="project" />
     <orderEntry type="library" name="Gradle: org.junit.platform:junit-platform-commons:1.8.1" level="project" />

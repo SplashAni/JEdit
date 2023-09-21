@@ -25,5 +25,7 @@ public class ConfigReader {
     public boolean hasPath(){
         return !(path() == null);
     }
-
+    public Color buttonColor(){
+        return config.loadColor("iconColor");
+    }
 }

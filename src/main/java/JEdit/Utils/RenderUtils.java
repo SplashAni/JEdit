@@ -12,4 +12,5 @@ public class RenderUtils {
             b.setFont(configReader.font());
         }
     }
+
 }

@@ -1,6 +1,9 @@
 package JEdit.Config;
 
+import JEdit.Utils.ImageUtils;
+
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,26 +15,25 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.io.File.listRoots;
 import static java.io.File.separator;
 
-public class ImgConfig {
+public class Downloader {
     String path = Config.INSTANCE.dir + separator + "Assets";
-    public static ImgConfig INSTANCE = new ImgConfig();
+    public static Downloader INSTANCE = new Downloader();
+    ConfigReader configReader = ConfigReader.INSTANCE;
     List<String> assets = new ArrayList<>();
-
     File filePath = new File(path);
     boolean downloadAll;
     String name;
 
-    public ImgConfig() {
+    public Downloader() {
     }
 
-    public ImgConfig(boolean downloadAll) {
+    public Downloader(boolean downloadAll) {
         this.downloadAll = downloadAll;
     }
 
-    public ImgConfig(String name) {
+    public Downloader(String name) {
         this.downloadAll = false;
         this.name = name;
     }
@@ -50,6 +52,7 @@ public class ImgConfig {
 
             for (String s : assets) {
                 downloadImage(s);
+                ImageUtils.INSTANCE.replaceColor(new File(this.path, s.concat(".png")), Color.BLACK,Color.PINK);
             }
         }
     }
@@ -64,7 +67,7 @@ public class ImgConfig {
     }
 
     public ImageIcon icon(String name) {
-        return new ImageIcon(filePath + separator+  name.concat(".png"));
+        return new ImageIcon(filePath + separator +  name.concat(".png"));
     }
 
     public void downloadImage(String name) {

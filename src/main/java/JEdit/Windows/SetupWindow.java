@@ -1,7 +1,7 @@
 package JEdit.Windows;
 
 import JEdit.Config.Config;
-import JEdit.Config.ImgConfig;
+import JEdit.Config.Downloader;
 import JEdit.Utils.ComponentUtils;
 import com.formdev.flatlaf.FlatDarculaLaf;
 
@@ -18,7 +18,7 @@ public class SetupWindow extends JFrame {
 
     public SetupWindow() {
 
-        ImgConfig imgConfig = new ImgConfig(true);
+        Downloader imgConfig = new Downloader(true);
         imgConfig.createDir();
         imgConfig.download();
 

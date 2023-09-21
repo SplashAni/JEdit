@@ -1,9 +1,14 @@
 package JEdit;
 
 import JEdit.Config.Config;
-import JEdit.Config.ImgConfig;
+import JEdit.Config.Downloader;
+import JEdit.Utils.ImageUtils;
 import JEdit.Windows.EditorWindow;
+import JEdit.Windows.RetrieverWindow;
 import com.formdev.flatlaf.FlatDarculaLaf;
+
+import java.awt.*;
+import java.io.File;
 
 public class Main{
 
@@ -16,6 +21,7 @@ public class Main{
         }
 
         FlatDarculaLaf.setup();
+
 
         new EditorWindow();
 

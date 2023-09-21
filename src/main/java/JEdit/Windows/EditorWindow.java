@@ -1,6 +1,6 @@
 package JEdit.Windows;
 
-import JEdit.Config.ImgConfig;
+import JEdit.Config.Downloader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,7 +57,9 @@ public class EditorWindow extends JFrame {
 
         ArrayList<JButton> buttonList;
 
-        String[] names = {"pencil", "lowercase", "paintbrush", "color", "forward", "backward"};
+        String[] names = {
+                "pencil", "lowercase", "paintbrush", "color", "forward", "backward"
+        };
 
         buttonList = Arrays.stream(names).map(this::styledButton).collect(Collectors.toCollection(ArrayList::new));
 
@@ -85,12 +87,13 @@ public class EditorWindow extends JFrame {
 
     public JButton styledButton(String name) {
         JButton b = new JButton();
-        ImageIcon imageIcon = (ImgConfig.INSTANCE.icon(name));
-        Image scaled = imageIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-        ImageIcon resized = new ImageIcon(scaled);
-        b.setIcon(resized);
 
+        ImageIcon imageIcon = (Downloader.INSTANCE.icon(name));
+        Image scaled = imageIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+
+        b.setIcon(new ImageIcon(scaled));
         b.setFocusPainted(false);
+
         b.setBackground(null);
 
         return b;
