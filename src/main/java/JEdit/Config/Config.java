@@ -46,11 +46,11 @@ public class Config {
 
         } else {
             if (!hasProperties(
-                    "username",
                     "theme",
                     "font",
                     "fontSize",
-                    ""
+                    "iconColor",
+                    "buttonOutline"
             )) {
 
                 if(pathFile.delete()) System.out.println("Deleted corrupted config.");

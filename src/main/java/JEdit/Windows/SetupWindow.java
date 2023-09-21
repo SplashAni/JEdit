@@ -320,6 +320,8 @@ public class SetupWindow extends JFrame {
 
                 setVisible(false);
 
+                System.exit(0);
+
             } else {
                 JOptionPane.showMessageDialog(this, "Please fill in all requirements.", "Error", JOptionPane.ERROR_MESSAGE);
             }

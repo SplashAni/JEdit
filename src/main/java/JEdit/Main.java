@@ -46,17 +46,33 @@ public class Main {
 
             if (!systemUtils.isOutdated()) {
 
-                JOptionPane.showMessageDialog(null,
-                        "You version is outdated please update to latest version.",
-                        "Error".concat(" current version " + version + " < " + systemUtils.latestVersion()),
-                        JOptionPane.ERROR_MESSAGE
+                Object[] options = {"Update", "Exit"};
+                int choice = JOptionPane.showOptionDialog(
+                        null,
+                        "Your version is outdated. Please update to the latest version.",
+                        "Error: Version " + version + " < " + systemUtils.latestVersion(),
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.ERROR_MESSAGE,
+                        null,
+                        options,
+                        options[0]
                 );
+
+                if (choice == JOptionPane.YES_OPTION) {
+                    systemUtils.openUrl("https://github.com/SplashAni/JEdit/releases");
+                } else {
+                    System.exit(0);
+                }
 
                 return;
             }
         }
 
-        new EditorWindow();
+        Config.INSTANCE.run();
+
+        Runtime.getRuntime().addShutdownHook(new Thread(()->{
+            System.out.println("ok");
+        }));
 
     }
 }
