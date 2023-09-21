@@ -81,7 +81,6 @@ public class SetupWindow extends JFrame {
         cancelButton.addActionListener(e -> System.exit(0));
 
         nextButton.addActionListener(e -> {
-
             username = textField.getText();
             stage = 1;
             render();

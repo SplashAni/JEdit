@@ -1,6 +1,7 @@
 package JEdit.Windows;
 
 import JEdit.Config.Downloader;
+import JEdit.Utils.SystemUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -47,7 +48,7 @@ public class EditorWindow extends JFrame {
 
     private void initializeSplitPane() {
         splitPane.setResizeWeight(0.2);
-        splitPane.setDividerLocation(55);
+        splitPane.setDividerLocation(45);
 
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
@@ -89,7 +90,7 @@ public class EditorWindow extends JFrame {
         JButton b = new JButton();
 
         ImageIcon imageIcon = (Downloader.INSTANCE.icon(name));
-        Image scaled = imageIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        Image scaled = imageIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 
         b.setIcon(new ImageIcon(scaled));
         b.setFocusPainted(false);

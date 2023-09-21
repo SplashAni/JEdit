@@ -49,10 +49,11 @@ public class Config {
                     "username",
                     "theme",
                     "font",
-                    "fontSize"
+                    "fontSize",
+                    ""
             )) {
 
-                pathFile.delete();
+                if(pathFile.delete()) System.out.println("Deleted corrupted config.");
 
                 SwingUtilities.invokeLater(SetupWindow::new);
 

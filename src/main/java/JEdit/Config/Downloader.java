@@ -52,8 +52,12 @@ public class Downloader {
 
             for (String s : assets) {
                 downloadImage(s);
-                ImageUtils.INSTANCE.replaceColor(new File(this.path, s.concat(".png")), Color.BLACK,Color.PINK);
+
+                ImageUtils.INSTANCE.replaceColor(new File(this.path, s.concat(".png")), new Color(
+                        153,148,148
+                ),configReader.buttonColor());
             }
+
         }
     }
 
